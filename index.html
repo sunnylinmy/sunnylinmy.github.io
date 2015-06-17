@@ -169,7 +169,7 @@
           <div class="article-date">
   <i class="fa fa-calendar"></i>
   <a href="/2015/06/17/ML-Gradient-Descent1/">
-    <time datetime="2015-06-17T23:11:54.000Z" itemprop="datePublished">2015-06-17</time>
+    <time datetime="2015-06-17T23:12:34.000Z" itemprop="datePublished">2015-06-17</time>
   </a>
 </div>
           
@@ -188,6 +188,9 @@
 <p>And the differences are<br>$J(\theta<em>0,\theta_1,…,\theta_n)={1 \over 2m} \sum<br>(h</em>\theta(x^{(i)})-y^{(i)})^2$. </p>
 <p>Surely you can use functions embedded in R or Matlab to estimate the parameters very fast. However, how does embedded function in R or Matlab or other software minimize the cost function (indicated as the differences above) to calculate the parameters? One way is to use gradient descent. </p>
 <p>The main idea of gradient descent is that one starts with a guess of ${\theta_0, \theta_1,…\theta_n}$ and change every $\theta$ a little bit by some rule everytime and calculate corresponding cost function everytime. Hopefully, the cost function result will become smaller and smaller (i.e. converge) and thus we will get a local minimum. And the ${\theta_0, \theta_1,…\theta_n}$ at that time are the $\theta$ s we want. </p>
+<p>The some rule we need to change theta every time is:<br>$\theta_j = \theta_j - \alpha { \partial \over \partial \theta_j} J(\theta_0, \theta_1, …\theta_n)$.</p>
+<p>(The reason we use this rule is $J(\theta_0,\theta_1,…,\theta_n)$ decreases fastest if one goes from original $\theta$ s in the direction of the negative gradient of J at $\theta$ s. And this is also why this rule called gradient descent.)</p>
+<p>For example, we use matlab to do gradient descent. This example is from the first programming assignment of Machine Learning Course by Professor Andrew Ng on coursera.org. In the following code, we use theta to represent $\theta$ , computeCost to represent $J(\theta_0,\theta_1,…\theta_n)$.</p>
 
       
     </div>
@@ -275,7 +278,7 @@
             <div class="item-inner">
               <p class="item-category"><a class="article-category-link" href="/categories/learning/">learning</a></p>
               <p class="item-title"><a href="/2015/06/17/ML-Gradient-Descent1/" class="title">Machine Learning Study Notes - Gradient Descent</a></p>
-              <p class="item-date"><time datetime="2015-06-17T23:11:54.000Z" itemprop="datePublished">2015-06-17</time></p>
+              <p class="item-date"><time datetime="2015-06-17T23:12:34.000Z" itemprop="datePublished">2015-06-17</time></p>
             </div>
           </li>
         
