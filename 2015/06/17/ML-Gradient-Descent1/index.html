@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://sunnylinmy.github.io/2015/06/17/ML-Gradient-Descent1/index.html">
 <meta property="og:site_name" content="Mengyang Lin's Blog">
 <meta property="og:description" content="Since I was studying Machine Learning on coursera.org, I had an idea of putting my thoughts during the study on my personal website: sunnylinmy.github.io (or mengyanglin.com). The first course of Mach">
-<meta property="og:updated_time" content="2015-06-17T23:46:35.000Z">
+<meta property="og:updated_time" content="2015-06-17T23:47:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Machine Learning Study Notes - Gradient Descent">
 <meta name="twitter:description" content="Since I was studying Machine Learning on coursera.org, I had an idea of putting my thoughts during the study on my personal website: sunnylinmy.github.io (or mengyanglin.com). The first course of Mach">
@@ -169,7 +169,7 @@
           <div class="article-date">
   <i class="fa fa-calendar"></i>
   <a href="/2015/06/17/ML-Gradient-Descent1/">
-    <time datetime="2015-06-17T23:46:35.000Z" itemprop="datePublished">2015-06-17</time>
+    <time datetime="2015-06-17T23:47:31.000Z" itemprop="datePublished">2015-06-17</time>
   </a>
 </div>
           
@@ -188,7 +188,7 @@
 <p>one may consider the OLS be the best way to estimate $$$\theta_0$$$  and  $$$\theta_1$$$ . As we all know, <a href="https://en.wikipedia.org/wiki/Ordinary_least_squares" target="_blank" rel="external">ordinary least squares</a> method is achieved by minimizing the differences between the observed responses and the responses predicted by the linear approximatin of the data, which is </p>
 <p>$$${h_\theta(x^{(i)})=\hat{\theta_0} + \hat{\theta_1} x_1 +…+\hat{\theta_n} x_n}$$$ .  </p>
 <p>And the differences are</p>
-<p>$$$J(\theta<em>0,\theta_1,…,\theta_n)={1 \over 2m} \sum(h</em>\theta(x^{(i)})-y^{(i)})^2$$$ . </p>
+<p>$$$J(\theta<em>0,\theta_1,…,\theta_n)={1 \over 2m} \sum(h</em>\theta(x^{(i)})-y^{(i)})^2$$$<br>. </p>
 <p>Surely you can use functions embedded in R or Matlab to estimate the parameters very fast. However, how does embedded function in R or Matlab or other software minimize the cost function (indicated as the differences above) to calculate the parameters? One way is to use gradient descent. </p>
 <p>The main idea of gradient descent is that one starts with a guess of $$${\theta_0, \theta_1,…\theta_n}$$$ and change every $$$\theta$$$ a little bit by some rule everytime and calculate corresponding cost function everytime. Hopefully, the cost function result will become smaller and smaller (i.e. converge) and thus we will get a local minimum. And the $$${\theta_0, \theta_1,…\theta_n}$$$ at that time are the $$$\theta$$$ s we want. </p>
 <p>The some rule we need to change theta every time is:<br>$$$\theta_j = \theta_j - \alpha { \partial \over \partial \theta_j} J(\theta_0, \theta_1, …\theta_n)$$$.</p>
@@ -253,7 +253,7 @@
             <div class="item-inner">
               <p class="item-category"><a class="article-category-link" href="/categories/learning/">learning</a></p>
               <p class="item-title"><a href="/2015/06/17/ML-Gradient-Descent1/" class="title">Machine Learning Study Notes - Gradient Descent</a></p>
-              <p class="item-date"><time datetime="2015-06-17T23:46:35.000Z" itemprop="datePublished">2015-06-17</time></p>
+              <p class="item-date"><time datetime="2015-06-17T23:47:31.000Z" itemprop="datePublished">2015-06-17</time></p>
             </div>
           </li>
         
