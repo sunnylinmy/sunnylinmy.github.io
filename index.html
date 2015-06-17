@@ -169,7 +169,7 @@
           <div class="article-date">
   <i class="fa fa-calendar"></i>
   <a href="/2015/06/17/ML-Gradient-Descent1/">
-    <time datetime="2015-06-17T23:15:46.000Z" itemprop="datePublished">2015-06-17</time>
+    <time datetime="2015-06-17T23:19:25.000Z" itemprop="datePublished">2015-06-17</time>
   </a>
 </div>
           
@@ -191,6 +191,16 @@
 <p>The some rule we need to change theta every time is:<br>$$$\theta_j = \theta_j - \alpha { \partial \over \partial \theta_j} J(\theta_0, \theta_1, …\theta_n)$$$.</p>
 <p>(The reason we use this rule is $$$J(\theta_0,\theta_1,…,\theta_n)$$$ decreases fastest if one goes from original $$$\theta$$$ s in the direction of the negative gradient of J at $$$\theta$$$ s. And this is also why this rule called gradient descent.)</p>
 <p>For example, we use matlab to do gradient descent. This example is from the first programming assignment of Machine Learning Course by Professor Andrew Ng on coursera.org. In the following code, we use theta to represent $$$\theta$$$ , computeCost to represent $$$J(\theta_0,\theta_1,…\theta_n)$$$.</p>
+<p><strong>Load Data</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data = load(&#39;yourdata.txt&#39;);&#10;X = data(:,1);&#10;y = data(:,2);&#10;m = length(y);</span><br></pre></td></tr></table></figure>
+<p><strong>Use Gradient Descent to Calculate parameters</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X = [ones(m, 1), data(:,1)]; % Add a column of ones to x&#10;theta = zeros(2, 1); % initialize fitting parameters&#10;&#10;% Some gradient descent settings&#10;iterations = 1500;&#10;alpha = 0.01;&#10;&#10;% compute and display initial cost&#10;computeCost(X, y, theta)&#10;&#10;% run gradient descent&#10;theta = gradientDescent(X, y, theta, alpha, iterations);</span><br></pre></td></tr></table></figure>
+<p>Thus, we need to write two functions: computeCost and gradientDescent function. </p>
+<p><strong><em>computeCost</em></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function J = computeCost(X, y, theta)&#10;    J= 0.5*1/m*sum((X*theta-y).^2)&#10;end</span><br></pre></td></tr></table></figure>
+<p><strong><em>gradientDescent</em></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function [theta, J_history] = gradientDescent(X, y, theta, alpha, num_iters)&#10;   m = length(y); % number of training examples&#10;   J_history = zeros(num_iters, 1);  &#10;   for iter = 1:num_iters&#10;      cost = X&#39;*((X*theta)-y);&#10;      theta = theta - ((alpha/m)*cost);&#10;      J_history(iter) = computeCost(X, y, theta);&#10;   end&#10;end</span><br></pre></td></tr></table></figure>
+<p>The matlab code will print out 1500 lines of cost function results and when you see the J turn to be steady, the corresponding thetas are the thetas wanted. Furthermore, if we set a tolerance rate and if-else conditions, we don’t need to print out that many Js.</p>
 
       
     </div>
@@ -278,7 +288,7 @@
             <div class="item-inner">
               <p class="item-category"><a class="article-category-link" href="/categories/learning/">learning</a></p>
               <p class="item-title"><a href="/2015/06/17/ML-Gradient-Descent1/" class="title">Machine Learning Study Notes - Gradient Descent</a></p>
-              <p class="item-date"><time datetime="2015-06-17T23:15:46.000Z" itemprop="datePublished">2015-06-17</time></p>
+              <p class="item-date"><time datetime="2015-06-17T23:19:25.000Z" itemprop="datePublished">2015-06-17</time></p>
             </div>
           </li>
         
