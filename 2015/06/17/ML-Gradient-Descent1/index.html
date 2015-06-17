@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://sunnylinmy.github.io/2015/06/17/ML-Gradient-Descent1/index.html">
 <meta property="og:site_name" content="Mengyang Lin's Blog">
 <meta property="og:description" content="Since I was studying Machine Learning on coursera.org, I had an idea of putting my thoughts during the study on my personal website: sunnylinmy.github.io (or mengyanglin.com). The first course of Mach">
-<meta property="og:updated_time" content="2015-06-17T22:31:53.000Z">
+<meta property="og:updated_time" content="2015-06-17T22:52:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Machine Learning Study Notes - Gradient Descent">
 <meta name="twitter:description" content="Since I was studying Machine Learning on coursera.org, I had an idea of putting my thoughts during the study on my personal website: sunnylinmy.github.io (or mengyanglin.com). The first course of Mach">
@@ -135,7 +135,7 @@
           <div class="article-date">
   <i class="fa fa-calendar"></i>
   <a href="/2015/06/17/ML-Gradient-Descent1/">
-    <time datetime="2015-06-17T22:31:53.000Z" itemprop="datePublished">2015-06-17</time>
+    <time datetime="2015-06-17T22:52:11.000Z" itemprop="datePublished">2015-06-17</time>
   </a>
 </div>
           
@@ -150,6 +150,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>Since I was studying Machine Learning on coursera.org, I had an idea of putting my thoughts during the study on my personal website: sunnylinmy.github.io (or mengyanglin.com). The first course of Machine Learning is <a href="https://en.wikipedia.org/wiki/Gradient_descent" target="_blank" rel="external">Gradient Descent</a>. </p>
+<p>In econometrics, the most common way to build model for forecasting is to use linear model first. After writing down the basic formula of linear model $y={ \theta_0+\theta_1 x_1+…+\theta_n x_n}$, one may consider the OLS be the best way to estimate ${\theta_0}$ and ${\theta_1}$. </p>
 
       
     </div>
@@ -199,7 +200,7 @@
             <div class="item-inner">
               <p class="item-category"><a class="article-category-link" href="/categories/learning/">learning</a></p>
               <p class="item-title"><a href="/2015/06/17/ML-Gradient-Descent1/" class="title">Machine Learning Study Notes - Gradient Descent</a></p>
-              <p class="item-date"><time datetime="2015-06-17T22:31:53.000Z" itemprop="datePublished">2015-06-17</time></p>
+              <p class="item-date"><time datetime="2015-06-17T22:52:11.000Z" itemprop="datePublished">2015-06-17</time></p>
             </div>
           </li>
         
@@ -274,7 +275,36 @@
     </div>
   </div>
 </footer>
-    
+    <!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 
 
 <script src="//ajax.useso.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
