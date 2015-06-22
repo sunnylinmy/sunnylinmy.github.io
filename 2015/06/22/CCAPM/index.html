@@ -21,7 +21,8 @@ AbstractConsumption-oriented capital asset pricing model (CCAPM) by Breeden (197
 <meta property="og:image" content="http://sunnylinmy.github.io/images/f_formula.png">
 <meta property="og:image" content="http://sunnylinmy.github.io/images/alpha_formula.png">
 <meta property="og:image" content="http://sunnylinmy.github.io/images/f_formula2.png">
-<meta property="og:updated_time" content="2015-06-22T23:03:33.000Z">
+<meta property="og:image" content="http://sunnylinmy.github.io/images/l_formula.png">
+<meta property="og:updated_time" content="2015-06-22T23:04:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Empirical Test of Bond Market’s CCAPM Based on Asymmetric Exponential Power Distribution">
 <meta name="twitter:description" content="Author: Mengyang Lin, Jin Cao, Xuan Sun
@@ -180,7 +181,7 @@ AbstractConsumption-oriented capital asset pricing model (CCAPM) by Breeden (197
           <div class="article-date">
   <i class="fa fa-calendar"></i>
   <a href="/2015/06/22/CCAPM/">
-    <time datetime="2015-06-22T23:03:33.000Z" itemprop="datePublished">2015-06-22</time>
+    <time datetime="2015-06-22T23:04:09.000Z" itemprop="datePublished">2015-06-22</time>
   </a>
 </div>
           
@@ -256,6 +257,10 @@ AbstractConsumption-oriented capital asset pricing model (CCAPM) by Breeden (197
 <p>$$$p_1$$$ controls the left kurtosis, $$$p_2$$$ controls the right kurtosis and $$$\alpha$$$ is the parameter of skewness.</p>
 <p>When the parameters satisfy the condition that $$$\alpha = 0.5, p_1=p_2=2, \mu = 0, \sigma=1$$$, and thus $$$\alpha = \alpha^*$$$, the function of AEPD turns out to be</p>
 <p><img src="/images/f_formula2.png" alt=""></p>
+<p>The parameters of CCAPM-AEPD and CCAPM have the same meaning: $$$r_t$$$ is the asset return and $$$c_t$$$ is the consumption growth return. $$$\beta_1$$$ and $$$\beta_2$$$ are two parameters to estimate: $$$\beta_1$$$ is the intercept and $$$\beta_2$$$ is the coefficient of the function. $$$u_t$$$ is the error term of CCAPM function.</p>
+<p>Since we change the assumption of the distribution of error from normal distribution to asymmetric exponential power distribution, we use maximum likelihood estimation method to estimate parameters instead of ordinary least square method. The likelihood function is</p>
+<p><img src="/images/l_formula.png" alt=""></p>
+<p>In order to show the advantage of this model, we compare the model with CCAPM with normal distribution assumption. </p>
 
       
     </div>
@@ -306,7 +311,7 @@ AbstractConsumption-oriented capital asset pricing model (CCAPM) by Breeden (197
             <div class="item-inner">
               <p class="item-category"><a class="article-category-link" href="/categories/Learning/">Learning</a></p>
               <p class="item-title"><a href="/2015/06/22/CCAPM/" class="title">Empirical Test of Bond Market’s CCAPM Based on Asymmetric Exponential Power Distribution</a></p>
-              <p class="item-date"><time datetime="2015-06-22T23:03:33.000Z" itemprop="datePublished">2015-06-22</time></p>
+              <p class="item-date"><time datetime="2015-06-22T23:04:09.000Z" itemprop="datePublished">2015-06-22</time></p>
             </div>
           </li>
         
