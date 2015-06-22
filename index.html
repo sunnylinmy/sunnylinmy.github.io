@@ -125,11 +125,11 @@
   	</div>
     <div class="article-info profile-block">
       <div class="article-info-block">
-        2
+        3
         <span>posts</span>
       </div>
       <div class="article-info-block">
-        3
+        4
         <span>tags</span>
       </div>
     </div>
@@ -152,6 +152,104 @@
 </aside>
       
       <section id="main">
+      <article id="post-CCAPM" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/22/CCAPM/">Empirical Test of Bond Market’s CCAPM Based on Asymmetric Exponential Power Distribution</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2015/06/22/CCAPM/">
+    <time datetime="2015-06-22T23:00:25.000Z" itemprop="datePublished">2015-06-22</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Learning/">Learning</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Author: Mengyang Lin, Jin Cao, Xuan Sun</p>
+<h4 id="Abstract">Abstract</h4><p>Consumption-oriented capital asset pricing model (CCAPM) by Breeden (1979) is a financial model that extends the concepts of the traditional capital asset pricing model (CAPM) to include the consumption to measure the risk of a security by the covariance of its return with per capita consumption. It has become one of the most popular asset pricing models in the last 20 years. However, few previous research focuses on the simulation of the error terms of these asset pricing models. In this paper, we include the AEPD into the CCAPM to study its power. Nice properties of AEPD in CCAPM are found and always generate a better-fitting model.</p>
+<p><strong><strong>Keywords</strong></strong>: Consumption-oriented capital asset pricing model, asymmetric exponential power distribution</p>
+<h3 id="1-_Introduction">1. Introduction</h3><p>Consumption-oriented capital asset pricing model (CCAPM) by Breeden (1979) has been one of the most popularly used asset pricing models to measure the risk of a security by the covariance of its return with per capita consumption. This covariance is known as the consumption beta. The expected equity premium here is proportional to the consumption beta. Compared to capital asset pricing model (CAPM) by Lintner (1965) and Sharpe (1964), CCAPM is actually more important than the CAPM due to its integral role in modern macroeconomics. Nonetheless, the existing literature reports that the standard CCAPM model cannot explain the asset return in US by Breeden, Gibbons, Litzenberger (1989), Mankiw and Zeldes (1991) and Campbell and Cocherane (2000).</p>
+<p>  Although previous literature has shown different reasons for not very good results got from CCAPM, most of the empirical tests of the CCAPM have only be conducted based on the assumption that the error term follows normal distribution. There has been unexpectedly limited research in the distribution of error term of asset pricing models. Thus, in this paper, instead of normal distribution, we assume that the error term follows asymmetric exponential power distribution (AEPD) when constructing the CCAPM and explore whether the results get improved. The reason why we use assumptions of asymmetric exponential power distribution is that AEPD has features of fat tails and skewness, which are essential to describe financial data. Zhu and Zinde-Walsh (2009) have done research on the probability density function of AEPD as well as its fatness and skewness, and proposed a method to generate AEPD random numbers. Jin (2011) incorporates AEPD into capital asset pricing model.</p>
+<p>  In addition, we also find empirical evidence against the assumption that the error term in the CCAPM follows normal distribution. As shown in Table I and Graph I, consumption growth, nondurable consumption growth and BBB Corporate bond returns are negatively skewed while mortgage, long-term corporate bond and 10-year treasury yield show positive skewness. Besides, mortgage, long-term corporate bond and BBB corporate bond all have a kurtosis more than 3 and show fat tails in Graph I, while nondurable consumption, consumption and 10-year treasury yield have a kurtosis less than 3. All these are inconsistent with the normal distribution, which has a skewness of 0 and a kurtosis of 3, and thus support our assumption for the error term in CCAPM to follow AEPD.</p>
+<p>  The negative skewness of BBB Corporate bonds indicates the nonlinearities of credit put option as well as the associated changing betas. Also, the positive skewness of 10-year treasury yield is consistent with the positive convexity of treasury notes. Long-term corporate bond shows slightly positive skewness, which may be because it contains not only junk and BBB bonds but also higher rated bonds and are thus more like treasury. Surprisingly, mortgage return shows positive skewness, which is contrary to the theory of prepayment option in mortgage. This may be because the Mortgage Master Merrill Lynch (M0A0) we used for mortgage return tracks the performance of all US dollar-denominated fixed rate and hybrid residential mortgage securities and consists of mortgages with different coupon rates, which would affect prepayment and mortgage returns and thus may lead to the positive skewness in mortgages.</p>
+<p><strong><strong>Table I: Skewness and Kurtosis of Consumption, Nondurable Consumption, Mortgage, Long-term Corporate bond, 10-year Treasury and BBB Corporate Bond</strong></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Skewness</th>
+<th>Kurtosis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consumption</td>
+<td>-0.39522</td>
+<td>0.817986</td>
+</tr>
+<tr>
+<td>Nondurable Consumption</td>
+<td>-0.26411</td>
+<td>0.498609</td>
+</tr>
+<tr>
+<td>Mortgage</td>
+<td>1.601288</td>
+<td>14.1077</td>
+</tr>
+<tr>
+<td>Long Term Corporate Bond</td>
+<td>0.700779</td>
+<td>7.111248</td>
+</tr>
+<tr>
+<td>10 Year Treasury Yield</td>
+<td>0.785187</td>
+<td>0.505254</td>
+</tr>
+<tr>
+<td>BBB Corporate</td>
+<td>-0.36899</td>
+<td>13.29386</td>
+</tr>
+</tbody>
+</table>
+<p> <strong><strong>Graph I: The Empirical Distribution of Consumption, Nondurable Consumption, Mortgage, Long-term Corporate bond, 10-yr Treasury and BBB Corporate Bond</strong></strong></p>
+<p> <img src="/images/mortgage_1.png" alt=""><br> <img src="/images/LTCB_1.png" alt=""><br> <img src="/images/10Yr_1.png" alt=""><br> <img src="/images/Non_1.png" alt=""><br> <img src="/images/consumption_1.png" alt=""></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sunnylinmy.github.io/2015/06/22/CCAPM/" data-id="cib8i986400009so93yx683wi" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning-CCAPM-Bond/">learning, CCAPM, Bond</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
       <article id="post-Recycle-Station" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -377,7 +475,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sunnylinmy.github.io/2015/06/18/Recycle-Station/" data-id="cib2v0epd0007pso924ed6fmw" class="article-share-link">Share</a>
+      <a data-url="http://sunnylinmy.github.io/2015/06/18/Recycle-Station/" data-id="cib8i988d00079so9a01gecl3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dijkstra/">Dijkstra</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hire/">Hire</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Machine-Learning/">Machine Learning</a></li></ul>
@@ -443,7 +541,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sunnylinmy.github.io/2015/06/02/ML-Gradient-Descent1/" data-id="cib2v0eo60000pso94pntalld" class="article-share-link">Share</a>
+      <a data-url="http://sunnylinmy.github.io/2015/06/02/ML-Gradient-Descent1/" data-id="cib8i988i000f9so97sds6g0n" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Machine-Learning/">Machine Learning</a></li></ul>
@@ -463,6 +561,24 @@
     <h3 class="widget-title">recents</h3>
     <div class="widget">
       <ul id="recent-post" class="">
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              <a href="/2015/06/22/CCAPM/" class="thumbnail">
+  
+    <span style="background-image:url(/images/mortgage_1.png
+)" alt="Empirical Test of Bond Market’s CCAPM Based on Asymmetric Exponential Power Distribution" class="thumbnail-image"></span>
+  
+</a>
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/Learning/">Learning</a></p>
+              <p class="item-title"><a href="/2015/06/22/CCAPM/" class="title">Empirical Test of Bond Market’s CCAPM Based on Asymmetric Exponential Power Distribution</a></p>
+              <p class="item-date"><time datetime="2015-06-22T23:00:25.000Z" itemprop="datePublished">2015-06-22</time></p>
+            </div>
+          </li>
         
           <li>
             
@@ -509,7 +625,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Learning/">Learning</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/">learning</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Learning/">Learning</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/learning/">learning</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -518,7 +634,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dijkstra/">Dijkstra</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hire/">Hire</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Machine-Learning/">Machine Learning</a><span class="tag-list-count">2</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dijkstra/">Dijkstra</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hire/">Hire</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Machine-Learning/">Machine Learning</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/learning-CCAPM-Bond/">learning, CCAPM, Bond</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -527,7 +643,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">tag cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Dijkstra/" style="font-size: 10px;">Dijkstra</a> <a href="/tags/Hire/" style="font-size: 10px;">Hire</a> <a href="/tags/Machine-Learning/" style="font-size: 20px;">Machine Learning</a>
+      <a href="/tags/Dijkstra/" style="font-size: 10px;">Dijkstra</a> <a href="/tags/Hire/" style="font-size: 10px;">Hire</a> <a href="/tags/Machine-Learning/" style="font-size: 20px;">Machine Learning</a> <a href="/tags/learning-CCAPM-Bond/" style="font-size: 10px;">learning, CCAPM, Bond</a>
     </div>
   </div>
 
@@ -536,7 +652,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 
