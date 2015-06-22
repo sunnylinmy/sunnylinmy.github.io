@@ -22,7 +22,7 @@ AbstractConsumption-oriented capital asset pricing model (CCAPM) by Breeden (197
 <meta property="og:image" content="http://sunnylinmy.github.io/images/alpha_formula.png">
 <meta property="og:image" content="http://sunnylinmy.github.io/images/f_formula2.png">
 <meta property="og:image" content="http://sunnylinmy.github.io/images/l_formula.png">
-<meta property="og:updated_time" content="2015-06-22T23:19:20.000Z">
+<meta property="og:updated_time" content="2015-06-22T23:50:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Empirical Test of Bond Market’s CCAPM Based on Asymmetric Exponential Power Distribution">
 <meta name="twitter:description" content="Author: Mengyang Lin, Jin Cao, Xuan Sun
@@ -181,7 +181,7 @@ AbstractConsumption-oriented capital asset pricing model (CCAPM) by Breeden (197
           <div class="article-date">
   <i class="fa fa-calendar"></i>
   <a href="/2015/06/22/CCAPM/">
-    <time datetime="2015-06-22T23:19:21.000Z" itemprop="datePublished">2015-06-22</time>
+    <time datetime="2015-06-22T23:50:52.000Z" itemprop="datePublished">2015-06-22</time>
   </a>
 </div>
           
@@ -268,6 +268,7 @@ AbstractConsumption-oriented capital asset pricing model (CCAPM) by Breeden (197
 <p>$$$L(r<em>t, c_t;\theta)= \prod</em>{i=0}^{n} {1 \over {\sigma \sqrt {2 \pi}}} exp[{- {(u_t - \mu)^2} \over {2 \sigma^2}}]$$$</p>
 <p>The likelihood function of AEPD distribution assumption is already given in the last function of 2. Model and Methodology.</p>
 <h4 id="3-3_Goodness_of_Fit">3.3 Goodness of Fit</h4><p>When applying maximum likelihood estimation, one can no longer use R-squared as criteria to do the model selection. To evaluate the goodness of fit, we use Akaike Information Criterion (AIC). Since there would always be information lost due to using a candidate model to represent the true model, we wish to select the model with least information lost. Though we cannot choose with certainty, we can minimize the estimated information lost. Generally, given the data set we have, the preferred model will give the smaller AIC value. In this paper, to offset the possible overfitting effect caused by 3 more parameters to estimate in CCAPM-AEPD model, we use AICc to evaluate the goodness of fit, because AICc has greater penalty for extra parameters. The function of AICc used in this paper is:</p>
+<p>$$$ AIC = - {2 \over n} ln(L) + 2 {k(k+1)} / (n-k-1)$$$</p>
 
       
     </div>
@@ -318,7 +319,7 @@ AbstractConsumption-oriented capital asset pricing model (CCAPM) by Breeden (197
             <div class="item-inner">
               <p class="item-category"><a class="article-category-link" href="/categories/Learning/">Learning</a></p>
               <p class="item-title"><a href="/2015/06/22/CCAPM/" class="title">Empirical Test of Bond Market’s CCAPM Based on Asymmetric Exponential Power Distribution</a></p>
-              <p class="item-date"><time datetime="2015-06-22T23:19:21.000Z" itemprop="datePublished">2015-06-22</time></p>
+              <p class="item-date"><time datetime="2015-06-22T23:50:52.000Z" itemprop="datePublished">2015-06-22</time></p>
             </div>
           </li>
         
