@@ -169,7 +169,7 @@
           <div class="article-date">
   <i class="fa fa-calendar"></i>
   <a href="/2015/06/22/CCAPM/">
-    <time datetime="2015-06-23T00:36:35.000Z" itemprop="datePublished">2015-06-22</time>
+    <time datetime="2015-06-23T00:37:21.000Z" itemprop="datePublished">2015-06-22</time>
   </a>
 </div>
           
@@ -258,7 +258,270 @@
 <h4 id="3-3_Goodness_of_Fit">3.3 Goodness of Fit</h4><p>When applying maximum likelihood estimation, one can no longer use R-squared as criteria to do the model selection. To evaluate the goodness of fit, we use Akaike Information Criterion (AIC). Since there would always be information lost due to using a candidate model to represent the true model, we wish to select the model with least information lost. Though we cannot choose with certainty, we can minimize the estimated information lost. Generally, given the data set we have, the preferred model will give the smaller AIC value. In this paper, to offset the possible overfitting effect caused by 3 more parameters to estimate in CCAPM-AEPD model, we use AICc to evaluate the goodness of fit, because AICc has greater penalty for extra parameters. The function of AICc used in this paper is:</p>
 <p>$$$ AIC = - {2 \over n} ln(L) + 2 {k(k+1)} / (n-k-1)$$$</p>
 <p>where k is the number of parameters. As we can see in Table II and Table III, the AICc value of CCAPM-AEPD is always smaller than that of CCAPM model. </p>
-<p>To quantify the improvement of CCAPM-AEPD relative to CCAPM, the relative likelihood, $$$ exp({(AIC_{min} - AIC_1)/ {2}})$$$ , </p>
+<p>To quantify the improvement of CCAPM-AEPD relative to CCAPM, the relative likelihood, $$$ exp({(AIC_{min} - AIC_1)/ {2}})$$$ , can be used to interpret the relative possibility that the model minimizes the estimated information lost. We choose Junk Bond as an example. The relative likelihood of CCAPM is 0.66 since CCAPM-AEPD has a smaller AICc value. Then, we could say that CCAPM model is 0.66 times as probable as CCAPM-AEPD model to minimize the information lost. From Table II and Table III, the range of relative likelihood is from 0.00 to 0.93. For high relative likelihood, we may conclude that adding extra 3 parameters may be less advantageous because the loss minimized using a more complex model is not very big. However, when analyzing junk bond and long term corporate bond, CCAPM-AEPD has a much better performance. This may be because junk bond and long term corporate bond are more like equity, of which the error term has the properties of equity like fat tail and skewness and is thus more suitable for AEPD assumption.</p>
+<h4 id="3-4_Residual_Check">3.4 Residual Check</h4><p>The advantage of AEPD model can also be shown in the residual graph. By comparing the empirical distribution curve of the error term with the distribution curve of random numbers generated from different distributions, we could see whether the model explains the real data well. The random number is generated from Normal distribution or AEPD distribution with estimated parameter from empirical data. We still take Junk Bond for example.</p>
+<p><strong><strong>Graph II: The distribution of the error term of junk bond in CAPM and random numbers from normal distribution</strong></strong></p>
+<p><img src="/images/junk_bond.png" alt=""></p>
+<p>As graph II shows, the curve of the error term of junk bond is obviously different from the curve of random numbers from normal distribution. The curve of the error term has the characteristics of asymmetries and fatness. As far as we can see in the graph, it is not appropriate to say that the normal distribution tracks the error term very well.</p>
+<p>Similar, we compare the distribution curve of the error term and the distribution curve of the random numbers generated from AEPD to see whether the model tracks t<br>he real data well.</p>
+<p><strong><strong>Graph III: The distribution of the error term of junk bond in CCAPM-AEPD and random numbers from AEPD distribution</strong></strong></p>
+<p><img src="/images/junk_bond_2.png" alt=""></p>
+<p>As far as we can see in the graph, the curve of the error term fits very well to the curve of the AEPD distribution random number. Comparing Graph III to Graph II, we can find that the CCAPM-AEPD model explains bond return data better than the CCAPM model does.</p>
+<p>Graphs of residual check for other fixed income securities could be found in the appendix. For most of the bonds, the residual graph of CCAPM-AEPD has better fit than CCAPM. </p>
+<h4 id="3-5_Empirical_Result">3.5 Empirical Result</h4><p>Table II and Table III show the results from two models. As shown in the tables, AICs does improve when using the CCAPM-AEPD model instead of the standard CCAPM model. </p>
+<p>Using total consumption growth, the beta values of CCAPM and CCAPM-AEPD are very small, which indicates a weak correlation between the bond return and the growth rate of consumption. Using nondurable consumption growth, beta value changes the sign on long-term corporate bond and AAA corporate bond. In CCAPM model, the coefficient values of long-term corporate bond and AAA corporate bond are positive, while in CCAPM-AEPD model, the coefficient values of these two bonds become negative. This could be possibly explained by the substitution effect. When consumption growth rate increases, there is a large possibility that stock market will also increase, while capital assets like long term corporate bond and high ranking bond may remain unchanged. Thus, investors may not be as satisfied with the relatively low return provided by bond of the same company as the higher return provided by the stock. Therefore, the price of bond will be pushed down and gives a decreasing bond return. This tentative explanation needs further exploration.</p>
+<p><strong><strong>Table II: CCAPM VS. CCAPM-AEPD using total consumption growth</strong></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th>$$$\beta_1$$$</th>
+<th>$$$\beta_2$$$</th>
+<th>$$$\alpha$$$</th>
+<th>$$$p_1$$$</th>
+<th>$$$p_2$$$</th>
+<th>AICc</th>
+<th>Relative Likelihood</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Baa Corporate Bond</td>
+<td>CCAPM</td>
+<td>2.192</td>
+<td>-0.063</td>
+<td>0.50</td>
+<td>2.00</td>
+<td>2.00</td>
+<td>2.84</td>
+<td>0.90</td>
+</tr>
+<tr>
+<td></td>
+<td>CCAPM-AEPD</td>
+<td>2.348</td>
+<td>-0.007</td>
+<td>0.75</td>
+<td>18.11</td>
+<td>0.79</td>
+<td>2.64</td>
+</tr>
+<tr>
+<td>Junk Bond Premium</td>
+<td>CCAPM</td>
+<td>5.721</td>
+<td>-0.118</td>
+<td>0.50</td>
+<td>2.00</td>
+<td>2.00</td>
+<td>4.93</td>
+<td>0.66</td>
+</tr>
+<tr>
+<td></td>
+<td>CCAPM-AEPD</td>
+<td>4.304</td>
+<td>－0.023</td>
+<td>0.19</td>
+<td>1.23</td>
+<td>0.70</td>
+<td>4.09</td>
+</tr>
+<tr>
+<td>10 Year Treasury</td>
+<td>CCAPM</td>
+<td>5.092</td>
+<td>-0.016</td>
+<td>-0.50</td>
+<td>2.00</td>
+<td>2.00</td>
+<td>4.91</td>
+<td>0.79</td>
+</tr>
+<tr>
+<td></td>
+<td>CCAPM-AEPD</td>
+<td>3.605</td>
+<td>-0.007</td>
+<td>0.05</td>
+<td>0.93</td>
+<td>1.24</td>
+<td>4.44</td>
+<td></td>
+</tr>
+<tr>
+<td>Short 3 month Treasury</td>
+<td>CCAPM</td>
+<td>3.619</td>
+<td>-0.020</td>
+<td>0.50</td>
+<td>2.00</td>
+<td>2.00</td>
+<td>4.91</td>
+<td>0.79</td>
+</tr>
+<tr>
+<td></td>
+<td>CCAPM-AEPD</td>
+<td>1.818</td>
+<td>0.003</td>
+<td>0.01</td>
+<td>0.13</td>
+<td>1.36</td>
+<td>4.59</td>
+<td></td>
+</tr>
+<tr>
+<td>US Long Term Corporate Bond</td>
+<td>CCAPM</td>
+<td>5.933</td>
+<td>0.099</td>
+<td>0.50</td>
+<td>2.00</td>
+<td>2.00</td>
+<td>5.10</td>
+<td>0.77</td>
+</tr>
+<tr>
+<td></td>
+<td>CCAPM-AEPD</td>
+<td>4.947</td>
+<td>-0.043</td>
+<td>0.42</td>
+<td>0.86</td>
+<td>0.81</td>
+<td>7.51</td>
+<td></td>
+</tr>
+<tr>
+<td>US Long Term Government Bond</td>
+<td>CCAPM</td>
+<td>5.249</td>
+<td>-0.058</td>
+<td>0.50</td>
+<td>2.00</td>
+<td>2.00</td>
+<td>8.02</td>
+<td>0.90</td>
+</tr>
+<tr>
+<td></td>
+<td>CCAPM-AEPD</td>
+<td>4.131</td>
+<td>-0.012</td>
+<td>0.28</td>
+<td>0.87</td>
+<td>0.95</td>
+<td>6.59</td>
+<td></td>
+</tr>
+<tr>
+<td>US Intermediate Term 5yr Government Bond</td>
+<td>CCAPM</td>
+<td>5.316</td>
+<td>-0.069</td>
+<td>0.50</td>
+<td>2.00</td>
+<td>2.00</td>
+<td>6.89</td>
+<td>0.86</td>
+</tr>
+<tr>
+<td></td>
+<td>CCAPM-AEPD</td>
+<td>4.131</td>
+<td>-0.012</td>
+<td>0.28</td>
+<td>0.87</td>
+<td>0.95</td>
+<td>6.59</td>
+<td></td>
+</tr>
+<tr>
+<td>US 30 Day Treasury Bill</td>
+<td>CCAPM</td>
+<td>3.608</td>
+<td>-0.041</td>
+<td>0.50</td>
+<td>2.00</td>
+<td>2.00</td>
+<td>5.14</td>
+<td>0.76</td>
+</tr>
+<tr>
+<td></td>
+<td>CCAPM-AEPD</td>
+<td>1.783</td>
+<td>-0.005</td>
+<td>0.00</td>
+<td>1.01</td>
+<td>1.44</td>
+<td>4.60</td>
+</tr>
+<tr>
+<td>AAA Corporate Bond</td>
+<td>CCAPM</td>
+<td>2.588</td>
+<td>0.061</td>
+<td>0.50</td>
+<td>2.00</td>
+<td>2.00</td>
+<td>6.19</td>
+<td>0.85</td>
+</tr>
+<tr>
+<td></td>
+<td>CCAPM-AEPD</td>
+<td>2.450</td>
+<td>-0.004</td>
+<td>0.49</td>
+<td>1.00</td>
+<td>0.78</td>
+<td>5.85</td>
+<td></td>
+</tr>
+<tr>
+<td>BBB Corporate Bond</td>
+<td>CCAPM</td>
+<td>1.873</td>
+<td>0.363</td>
+<td>0.50</td>
+<td>2.00</td>
+<td>2.00</td>
+<td>6.39</td>
+<td>0.92</td>
+</tr>
+<tr>
+<td></td>
+<td>CCAPM-AEPD</td>
+<td>1.654</td>
+<td>0.170</td>
+<td>0.42</td>
+<td>0.96</td>
+<td>1.01</td>
+<td>6.22</td>
+</tr>
+</tbody>
+</table>
+<p><strong><strong>Table III: CCAPM VS CCAPM-AEPD using total nondurable consumption growth</strong></strong></p>
+<p>omitted</p>
+<h3 id="4-_Empirical_Test:_CAPM-AEPD">4. Empirical Test: CAPM-AEPD</h3><p>In this section, as a supplement to the CCAPM, we examine the power of AEPD in CAPM model to probe further into the nice properties of AEPD in asset pricing models. Using the same method as in section3, we regress the excess returns of treasuries and bonds on the excess market returns of S&amp;P 500. The result is summarized with Table IV. </p>
+<p>As shown in Table IV, the inclusion of APED also increases the goodness of fit of the model. For CAPM-AEPD, the values of AICc are smaller than that of CAPM, which indicates a higher goodness of fit. In addition, all of the values of relative likelihood ratios are smaller than 1, which gives us the same results as we see in previous empirical test. </p>
+<p>For coefficient values, we can see that there is little difference between the results of CAPM and the results of CAPM-AEPD. However, one thing we need pay attention to is that for some treasuries and bonds such as Baa corporate bond, 3-month T-bills and 30-day T-bills, the signs of coefficient values get changed. The possible reason is that there is no significant relationship between these treasuries and bonds and stock market, so the signs of these coefficient values make little sense. This argument can also be validated by the fact that these coefficient values are quite close to zero.</p>
+<p><strong><strong>Table IV: CAPM VS CAPM-AEPD using total nondurable consumption growth</strong></strong></p>
+<p>omitted</p>
+<h3 id="5-_Concluding_Remarks">5. Concluding Remarks</h3><p>This paper extends the research on asset pricing models by studying the distribution of error terms. Specifically, we replace the default normal settings of the distribution of error terms with a more flexible and sophisticated distribution-AEPD. Nice properties of AEPD in CCAPM are investigated in this paper, and the results also make sense in CAPM. AEPD allows us to conduct a more flexible and accurate simulation of the distribution of the error terms, as we can control the skewness and kurtosis. As a result, a more accurate description of the distribution of error terms gives us a better goodness of fit as shown in Table II-Table IV and thus generates a better estimation of coefficients.</p>
+<h3 id="Reference">Reference</h3><p>[1] Breeden, Douglas T. “An intertemporal asset pricing model with stochastic consumption and investment opportunities.” Journal of financial Economics 7.3 (1979): 265-296.</p>
+<p>[2] Sharpe, William F. “Capital asset prices: A theory of market equilibrium under conditions of risk*.” The journal of finance 19.3 (1964): 425-442.</p>
+<p>[3] Lintner, John. “The valuation of risk assets and the selection of risky investments in stock portfolios and capital budgets.” The review of economics and statistics (1965): 13-37.</p>
+<p>[4] Breeden, Douglas T., Michael R. Gibbons, and Robert H. Litzenberger. “Empirical tests of the consumption‐oriented CAPM.” The Journal of Finance 44.2 (1989): 231-262.</p>
+<p>[5] Campbell, John Y., and John H. Cochrane. “Explaining the poor performance of consumption‐based asset pricing models.” The Journal of Finance 55.6 (2000): 2863-2878.</p>
+<p>[6] Yogo, Motohiro. “A consumption‐based explanation of expected stock returns.” The Journal of Finance 61.2 (2006): 539-580.</p>
+<p>[7] Mankiw, N. Gregory, and Stephen P. Zeldes. “The consumption of stockholders and nonstockholders.” Journal of Financial Economics 29.1 (1991): 97-112.</p>
+<p>[8] Zhu, Dongming, and Victoria Zinde-Walsh. “Properties and estimation of asymmetric exponential power distribution.” Journal of Econometrics 148.1 (2009): 86-99.</p>
+<p>[9] Jin, Huijie. Analysis of CAPM based on asymmetric exponential power distribution. Master dissertation, Nankai University, 2011.</p>
+<h3 id="Appendix">Appendix</h3><p>omitted</p>
 
       
     </div>
@@ -601,7 +864,7 @@
             <div class="item-inner">
               <p class="item-category"><a class="article-category-link" href="/categories/Learning/">Learning</a></p>
               <p class="item-title"><a href="/2015/06/22/CCAPM/" class="title">Empirical Test of Bond Market’s CCAPM Based on Asymmetric Exponential Power Distribution</a></p>
-              <p class="item-date"><time datetime="2015-06-23T00:36:35.000Z" itemprop="datePublished">2015-06-22</time></p>
+              <p class="item-date"><time datetime="2015-06-23T00:37:21.000Z" itemprop="datePublished">2015-06-22</time></p>
             </div>
           </li>
         
