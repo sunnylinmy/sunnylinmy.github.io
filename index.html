@@ -152,7 +152,7 @@
 </aside>
       
       <section id="main">
-      <article id="post-Recycle-Station" class="article article-type-post" itemscope itemprop="blogPost">
+      <article id="post-ML-LG" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -161,124 +161,30 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/26/Recycle-Station/">Site Selection of Recycle Station of Nanshan District, Shenzhen, China</a>
+      <a class="article-title" href="/2015/06/25/ML-LG/">ML_LG</a>
     </h1>
   
 
         <div class="article-meta">
           <div class="article-date">
   <i class="fa fa-calendar"></i>
-  <a href="/2015/06/26/Recycle-Station/">
-    <time datetime="2015-06-26T04:05:47.000Z" itemprop="datePublished">2015-06-26</time>
+  <a href="/2015/06/25/ML-LG/">
+    <time datetime="2015-06-26T01:53:10.000Z" itemprop="datePublished">2015-06-25</time>
   </a>
 </div>
           
-  <div class="article-category">
-  	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/Learning/">Learning</a>
-  </div>
-
         </div>
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>When I was an undergraduate student in Nankai University, I chose a course called Data Structure and Computing Algorithms introduction from Department of Mathematics. Three years passed, I have learned a lot of other algorithms beyond the content of that class, and I found that the code I wrote at that time was kind of … duh. Never mind, this course raised my interest in machine learning at least and I really enjoyed it. In this post, I’m going to briefly review what I did in the course project: Site selection of recycle station of Nanshan District, Shenzhen, China. This project was finally presented in class on 2012-12-17 and the project was originally in a mathematical modeling contest. </p>
-<!--more->
-
-In Nanshan District, there are 38 waste collection stations. Waste from every residential and commercial unit will be sent to the 38 waste collection everyday. Waste can be divided as two parts: recyclable and un recyclable. People in every waste collection station will separate the waste and send the recyclable waste to recycle station and send the unrecyclable waste to waste-to-energy burning plant located at the southwest part of Nanshan District. Thus, the project mainly consists of two problems: 
-
-1. Since we have 2 sizes of recycle stations, big and small, how many and what kind of recycle stations are needed? Where should we set the waste recycle station to minimize the cost of transportation?
-2. If we're going to use one big truck from one collection station to transport unrecyclable waste from its original plant and other unrecylcable waste from some other collection station along its road to burning plant, what will be his optimal road?
-
-###Problem 1 Location of Recycle Station
-
-The map of Nanshan District is:
-![](/images/Nanshan_map.png)
-
-And the list of collection station looks like this:
-
-Sequence | Name | Position | Operation Corporation | Quantity
--------- | ---- | -------- | --------------------- | ----------
-1        | 9th Street Station | Shen Nan Ave beside Nantou Middle School| De Ying Li Corporation | 20
-2        | Yu Quan Station | Yu Quan Rd and Bao Long Rd Crossing | De Ying Li Corporation | 25
-....        | .....|...........|.......................|.........
-38       | Tang Lang Station | In Tang Lang Industrial Zone | Recycling Main Corporation | 10
-
-We first marked every waste collection station manually according to the position described in the above list on the map. And put the map into mathematica to get the coordinates of every collection station like this:
-
-![](/images/Nanshan_coordinates.png)
-
-And the list of coordinates of collection is as following, where 
-
-Sequence | X | Y | C |
--------- | - | - | - |
-1        | 2225 | -5138 | 20
-2        | 2749 | -4940 | 25
-...      | ...  | ....  |
-38       | 5195 | -3147 | 10
-
-####Problemt 1.1 Estimation of Cost
-
-To solve the problem of how many big or small recycle station to build, we did a simple estimation. The condition we have at that time is:
-
-Variable | Number
--------- | ------
-The Area of Nanshan District | 182 km^2
-Recyclable Waste in collection station | 536 ton/day 
-Truck Load | 10 ton 
-Truck fuel consumption per ton | 27.5 L/100km
-Fuel Price | 7.5 RMB/L
-Big Station Treatment Capacity | 200 ton/day
-Small Station Treatment Capacity | 0.25 ton/day
-Big Station Building Cost | 45 Million RMB
-Small Station Building Cost | 0.28 Million RMB
-Big Station Treatment Cost | 150 RMB/ton
-Small Station Treatment Cost | 200 RMB/ton
-
-Thus, according the data of each waste collection station and the data above, we will have an estimation below:
-
-Station | Cost
-------- | ----
-No. of Small Station : 2144 | 6.4 * 10^8 RMB/year
-No. of Big Station: 1 and No. of Small Station: 1344 | 4.56 * 10^8 RMB/year
-No. of Big Station: 2 and No. of Small Station: 544 | 2.58 * 10^8 RMB/year
-****No. of Big Station: 3**** | 1.64 * 10^8 RMB/year
-
-Even if we think the Nanshan District is a round area and we put every collection station at the border with the recycle station at the center, we still find that the difference between every two condition above in the table is almost 30 times of the transportation cost every year. Thus, we don't need to consider transportation cost when deciding what kinds of stations to build and the decision is to build 3 big stations since this results in the least cost every year.
-
-####Problem 1.2 Clustering
-
-Since we found 3 big stations is the answer, we then use hierarchical cluster analysis to cluster the collection stations into 3 group and then by finding the barycenter of each group we can determine which location to build the recycle station. As for the clustering analysis, we use a agglomerative way to divide. We first regards the 38 collection stations as in their own clusters, and limits the distance between each clusters and the way to calculate distance between each collection station. Then we combine every 2 "adjacent" stations to one cluster, and calculate the distance between this new cluster to other clusters, and so on, until we can see on the graph that the collection stations are divided into 3 groups.
-
-Matlab code is as following:
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clc; &#10;data=xlsread(&#39;Book.xls&#39;,1);&#10;x=data(:,3);&#10;y=data(:,4);&#10;c=data(:,5);&#10;XY=[x y];&#10;Z = linkage(XY,&#39;ward&#39;,&#39;euclidean&#39;,&#39;savememory&#39;,&#39;on&#39;);&#10;c = cluster(Z,&#39;maxclust&#39;,3);&#10;scatter(x,y,10,c); &#10;dendrogram(X);&#10;hold on;</span><br></pre></td></tr></table></figure>
-<p>Then the map after clustering is as following, with different groups are in different color:</p>
-<p><img src="/images/Cluster.png" alt=""></p>
-<p>And the relationship of clustering is as follows:</p>
-<p><img src="/images/cluster3.png" alt=""></p>
-<p>To find the barycenter within each group by regarding the treatment capacity as their “weight”, we can find the center depicted in the map:</p>
-<p><img src="/images/3_recycle_station.png" alt=""></p>
-<p>And the function to find the barycenter is:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function cg=barycenter(mass,coord) &#10;% mass is the treatment capacity&#10;% coord is the coordinates of every station&#10;dm=size(coord); &#10;m=dm(1); &#10;n=dm(2); &#10;cg=zeros(1,n); &#10;tmass=sum(mass); &#10;for j=1:m &#10;         for i=1:n &#10;                 cg(i)=cg(i)+mass(j)*coord(j,i); &#10;         end &#10;end &#10;cg=cg/tmass;</span><br></pre></td></tr></table></figure>
-<h3 id="Problem_2_Route_to_Burning_Plant">Problem 2 Route to Burning Plant</h3><p>To make this route we use <a href="https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm">Dijkstra</a> to find the shortest route for a truck if it starts from one station to the final station. For economic concern, we assume the truck should better go to other stations before it finally reaches the burning plant since everyday the unrecyclable waste in one station usually will not meet the upper limit of a truck’s capacity and thus the truck should go to multiple stations to save fuel for other trucks. </p>
-<p>Next is an example code of one truck from No.31 station to Burning Plant. Since we regard the Burning Plant as the No.39 station, we put 39 as the end in the following program. </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clc; clear; close all;&#10;points = load(&#8216;Points.txt&#39;);&#10;lines = load(&#39;Lines.txt&#39;);&#10;A = ones(size(points, 1))*Inf;&#10;for i = 1 : size(A, 1)&#10;    A(i, i) = 0;&#10;end&#10;&#10;figure(&#8216;NumberTitle&#8217;, &#8216;off&#8217;, &#8216;Name&#8217;, &#8216;&#10;Connections&#39;, ...&#10;    &#39;Color&#39;, &#39;w&#39;, &#39;units&#39;, &#39;normalized&#39;);&#10;hold on; axis on;&#10;plot(points(:, 2), points(:, 3), &#39;g.&#39;,&#39;MarkerSize&#39;,20);&#10;for i=1:length(points(:,2))&#10;    str=[num2str(i)];&#10;text(points(i,2),points(i,3),str,&#39;FontSize&#39;,10)&#10;end&#10;for i = 1 : size(lines, 1)&#10;    temp = lines(i, :);&#10;    pt1 = points(temp(2), 2 : end);&#10;    pt2 = points(temp(3), 2 : end);&#10;    len = norm([pt1(1)-pt2(1), pt1(2)-pt2(2)]);&#10;    A(temp(1), temp(2)) = len;&#10;    plot([pt1(1) pt2(1)], [pt1(2) pt2(2)], &#39;k-&#39;, &#39;LineWidth&#39;, 1);&#10;end&#10;s = 31; % Begin&#10;e = 39; % End&#10;[dist,path] = dijkstra2(points,lines,s,e);&#10;fprintf(&#39;\n Use Dijkstra the Min Distance is: %.5f \n&#39;, dist);&#10;fprintf(&#39;\n Use Dijkstra the Min Distance path is: \n&#39;);&#10;disp(path);</span><br></pre></td></tr></table></figure>
-<p><img src="/images/dijkstra.png" alt=""><br><img src="/images/dijkstra2.png" alt=""></p>
-<p>As the output indicates, if we are going to the Burning Plant from No.31 station, we should pass No. 32, No.5, No.7, No.12, No.17, No.10, No.36. </p>
-<p>The dijkstra algorithm function is:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function [dist,path] = dijkstra(nodes,segments,start_id,finish_id)&#10;&#10;    % initializations&#10;    node_ids = nodes(:,1);&#10;    [num_map_pts,cols] = size(nodes);&#10;    table = sparse(num_map_pts,2);&#10;    shortest_distance = Inf(num_map_pts,1);&#10;    settled = zeros(num_map_pts,1);&#10;    path = num2cell(NaN(num_map_pts,1));&#10;    col = 2;&#10;    pidx = find(start_id == node_ids);&#10;    shortest_distance(pidx) = 0;&#10;    table(pidx,col) = 0;&#10;    settled(pidx) = 1;&#10;    path(pidx) = &#123;start_id&#125;;&#10;    if (nargin &#60; 4) % compute shortest path for all nodes&#10;        while_cmd = &#39;sum(~settled) &#62; 0&#39;;&#10;    else % terminate algorithm early&#10;        while_cmd = &#39;settled(zz) == 0&#39;;&#10;        zz = find(finish_id == node_ids);&#10;    end&#10;    while eval(while_cmd)&#10;        % update the table&#10;        table(:,col-1) = table(:,col);&#10;        table(pidx,col) = 0;&#10;        % find neighboring nodes in the segments list&#10;        neighbor_ids = [segments(node_ids(pidx) == segments(:,2),3);&#10;            segments(node_ids(pidx) == segments(:,3),2)];&#10;        % calculate the distances to the neighboring nodes and keep track of the paths&#10;        for k = 1:length(neighbor_ids)&#10;            cidx = find(neighbor_ids(k) == node_ids);&#10;            if ~settled(cidx)&#10;                d = sqrt(sum((nodes(pidx,2:cols) - nodes(cidx,2:cols)).^2));&#10;                if (table(cidx,col-1) == 0) || ...&#10;                        (table(cidx,col-1) &#62; (table(pidx,col-1) + d))&#10;                    table(cidx,col) = table(pidx,col-1) + d;&#10;                    tmp_path = path(pidx);&#10;                    path(cidx) = &#123;[tmp_path&#123;1&#125; neighbor_ids(k)]&#125;;&#10;                else&#10;                    table(cidx,col) = table(cidx,col-1);&#10;                end&#10;            end&#10;        end&#10;        % find the minimum non-zero value in the table and save it&#10;        nidx = find(table(:,col));&#10;        ndx = find(table(nidx,col) == min(table(nidx,col)));&#10;        if isempty(ndx)&#10;            break&#10;        else&#10;            pidx = nidx(ndx(1));&#10;            shortest_distance(pidx) = table(pidx,col);&#10;            settled(pidx) = 1;&#10;        end&#10;    end&#10;    if (nargin &#60; 4) % return the distance and path arrays for all of the nodes&#10;        dist = shortest_distance&#39;;&#10;        path = path&#39;;&#10;    else % return the distance and path for the ending node&#10;        dist = shortest_distance(zz);&#10;        path = path(zz);&#10;        path = path&#123;1&#125;;&#10;    end&#10;end</span><br></pre></td></tr></table></figure>
-<h3 id="Discussion">Discussion</h3><p>Looking back to this project, I did find some modifications that can be made, such as changing the euclidean distance to manhattan distance or trying to figure out a dynamic way to solve how many trucks are needed everyday to transport unrecyclable waste to Burning Plant. </p>
--->
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sunnylinmy.github.io/2015/06/26/Recycle-Station/" data-id="cibd3k4ck00074ro9f98q43lz" class="article-share-link">Share</a>
+      <a data-url="http://sunnylinmy.github.io/2015/06/25/ML-LG/" data-id="cibd3k4cq000f4ro9zkj0p0o8" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dijkstra/">Dijkstra</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hire/">Hire</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Machine-Learning/">Machine Learning</a></li></ul>
-
     </footer>
   </div>
   
@@ -302,42 +208,6 @@ Matlab code is as following:
           <li>
             
             <div class="item-thumbnail">
-              <a href="/2015/06/26/Recycle-Station/" class="thumbnail">
-  
-    <span style="background-image:url(/images/Cluster.png
-)" alt="Site Selection of Recycle Station of Nanshan District, Shenzhen, China" class="thumbnail-image"></span>
-  
-</a>
-            </div>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/Learning/">Learning</a></p>
-              <p class="item-title"><a href="/2015/06/26/Recycle-Station/" class="title">Site Selection of Recycle Station of Nanshan District, Shenzhen, China</a></p>
-              <p class="item-date"><time datetime="2015-06-26T04:05:47.000Z" itemprop="datePublished">2015-06-26</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-thumbnail">
-              <a href="/2015/06/26/CCAPM/" class="thumbnail">
-  
-    <span style="background-image:url(/images/mortgage_1.png
-)" alt="Empirical Test of Bond Market’s CCAPM Based on Asymmetric Exponential Power Distribution" class="thumbnail-image"></span>
-  
-</a>
-            </div>
-            
-            <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/Learning/">Learning</a></p>
-              <p class="item-title"><a href="/2015/06/26/CCAPM/" class="title">Empirical Test of Bond Market’s CCAPM Based on Asymmetric Exponential Power Distribution</a></p>
-              <p class="item-date"><time datetime="2015-06-26T04:05:31.000Z" itemprop="datePublished">2015-06-26</time></p>
-            </div>
-          </li>
-        
-          <li>
-            
-            <div class="item-thumbnail">
               <a href="/2015/06/25/ML-LG/" class="thumbnail">
   
     <span class="thumbnail-image thumbnail-none"></span>
@@ -349,6 +219,42 @@ Matlab code is as following:
               <p class="item-category"></p>
               <p class="item-title"><a href="/2015/06/25/ML-LG/" class="title">ML_LG</a></p>
               <p class="item-date"><time datetime="2015-06-26T01:53:10.000Z" itemprop="datePublished">2015-06-25</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              <a href="/2015/06/20/Recycle-Station/" class="thumbnail">
+  
+    <span style="background-image:url(/images/Cluster.png
+)" alt="Site Selection of Recycle Station of Nanshan District, Shenzhen, China" class="thumbnail-image"></span>
+  
+</a>
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/Learning/">Learning</a></p>
+              <p class="item-title"><a href="/2015/06/20/Recycle-Station/" class="title">Site Selection of Recycle Station of Nanshan District, Shenzhen, China</a></p>
+              <p class="item-date"><time datetime="2015-06-20T04:00:00.000Z" itemprop="datePublished">2015-06-20</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              <a href="/2015/06/10/CCAPM/" class="thumbnail">
+  
+    <span style="background-image:url(/images/mortgage_1.png
+)" alt="Empirical Test of Bond Market’s CCAPM Based on Asymmetric Exponential Power Distribution" class="thumbnail-image"></span>
+  
+</a>
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/Learning/">Learning</a></p>
+              <p class="item-title"><a href="/2015/06/10/CCAPM/" class="title">Empirical Test of Bond Market’s CCAPM Based on Asymmetric Exponential Power Distribution</a></p>
+              <p class="item-date"><time datetime="2015-06-10T04:00:00.000Z" itemprop="datePublished">2015-06-10</time></p>
             </div>
           </li>
         
