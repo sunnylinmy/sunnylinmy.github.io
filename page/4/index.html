@@ -184,7 +184,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>Since I was studying Machine Learning on coursera.org, I had an idea of putting my thoughts during the study on my personal website: sunnylinmy.github.io (or mengyanglin.com). And the first course of Machine Learning is <a href="https://en.wikipedia.org/wiki/Gradient_descent" target="_blank" rel="external">Gradient Descent</a>. </p>
-<p><img src="../images/ML_GD_fig1.png" alt=""></p>
+<p><img src="/images/ML_GD_fig1.png" alt=""></p>
 <p>In econometrics, the most common way to build model for forecasting is to use linear model first. After writing down the basic formula of linear model<br>$$$y=\theta_0+\theta_1 x_1+…+\theta_n x_n$$$ , </p>
 <p>one may consider the OLS be the best way to estimate $$$\theta_0$$$  and  $$$\theta_1$$$ . As we all know, <a href="https://en.wikipedia.org/wiki/Ordinary_least_squares" target="_blank" rel="external">ordinary least squares</a> method is achieved by minimizing the differences between the observed responses and the responses predicted by the linear approximation of the data, which is </p>
 <p>$$${h_\theta(x^{(i)})=\hat{\theta_0} + \hat{\theta_1} x_1 +…+\hat{\theta_n} x_n}$$$ .  </p>
@@ -203,7 +203,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function J = computeCost(X, y, theta)&#10;    J= 0.5*1/m*sum((X*theta-y).^2)&#10;end</span><br></pre></td></tr></table></figure>
 <p><strong><em>gradientDescent</em></strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function [theta, J_history] = gradientDescent(X, y, theta, alpha, num_iters)&#10;   m = length(y); % number of training examples&#10;   J_history = zeros(num_iters, 1);  &#10;   for iter = 1:num_iters&#10;      cost = X&#39;*((X*theta)-y);&#10;      theta = theta - ((alpha/m)*cost);&#10;      J_history(iter) = computeCost(X, y, theta);&#10;   end&#10;end</span><br></pre></td></tr></table></figure>
-<p>The matlab code will print out 1500 lines of cost function results and when you see the J turn to be steady, the corresponding thetas are the thetas wanted. Furthermore, if we set a tolerance rate and if-else conditions, we don’t need to print out that many Js.<br>Following is the graph of cost J s and corresponding $$$\theta$$$ s.<br><img src="../images/ML_GD_fig2.png" alt=""><br><img src="../images/ML_GD_fig3.png" alt=""></p>
+<p>The matlab code will print out 1500 lines of cost function results and when you see the J turn to be steady, the corresponding thetas are the thetas wanted. Furthermore, if we set a tolerance rate and if-else conditions, we don’t need to print out that many Js.<br>Following is the graph of cost J s and corresponding $$$\theta$$$ s.<br><img src="/images/ML_GD_fig2.png" alt=""><br><img src="/images/ML_GD_fig3.png" alt=""></p>
 
       
     </div>
@@ -291,7 +291,7 @@
             <div class="item-thumbnail">
               <a href="/2015/06/02/ML-Gradient-Descent1/" class="thumbnail">
   
-    <span style="background-image:url(/../images/ML_GD_fig1.png
+    <span style="background-image:url(/images/ML_GD_fig1.png
 )" alt="Machine Learning Study Notes - Gradient Descent" class="thumbnail-image"></span>
   
 </a>
