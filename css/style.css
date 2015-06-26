@@ -613,7 +613,8 @@ a:visited {
   text-align: center;
 }
 #profile .inner .base-info #name {
-  font-size: 20px;
+  width: 20px;
+  height: 20px;
   font-weight: 600;
 }
 #profile .inner .base-info #location {
@@ -1429,14 +1430,14 @@ a.article-title:hover {
 }
 .article-entry pre,
 .article-entry .highlight {
-  background: #34383d;
+  background: #ccc;
   margin: 0 -20px;
   padding: 15px 20px;
   border-style: solid;
   border-color: #eceff2;
   border-width: 1px 0;
   overflow: auto;
-  color: #ccc;
+  color: #666;
   line-height: 22.400000000000002px;
 }
 .article-entry .highlight .gutter pre,
@@ -1500,7 +1501,7 @@ a.article-title:hover {
   border-style: solid;
   border-color: #eceff2;
   border-width: 1px 0;
-  background: #34383d;
+  background: #ccc;
   padding: 15px 20px 15px 0;
 }
 .article-entry .gist .gist-file {
@@ -1534,7 +1535,7 @@ a.article-title:hover {
   border: none;
 }
 .article-entry .gist .gist-file .gist-meta {
-  background: #34383d;
+  background: #ccc;
   color: #999;
   font: 0.85em "open sans", "Helvetica Neue", "Microsoft Yahei", Helvetica, Arial, sans-serif;
   text-shadow: 0 0;

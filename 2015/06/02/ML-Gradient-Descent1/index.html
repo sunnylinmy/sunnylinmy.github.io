@@ -12,9 +12,7 @@
 <meta property="og:site_name" content="Mengyang Lin's Blog">
 <meta property="og:description" content="Since I was studying Machine Learning on coursera.org, I had an idea of putting my thoughts during the study on my personal website: sunnylinmy.github.io (or mengyanglin.com). And the first course of">
 <meta property="og:image" content="http://sunnylinmy.github.io/../images/ML_GD_fig1.png">
-<meta property="og:image" content="http://sunnylinmy.github.io/../images/ML_GD_fig2.png">
-<meta property="og:image" content="http://sunnylinmy.github.io/../images/ML_GD_fig3.png">
-<meta property="og:updated_time" content="2015-06-19T00:26:34.000Z">
+<meta property="og:updated_time" content="2015-06-26T04:04:36.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Machine Learning Study Notes - Gradient Descent">
 <meta name="twitter:description" content="Since I was studying Machine Learning on coursera.org, I had an idea of putting my thoughts during the study on my personal website: sunnylinmy.github.io (or mengyanglin.com). And the first course of">
@@ -129,7 +127,7 @@
   	</div>
     <div class="article-info profile-block">
       <div class="article-info-block">
-        3
+        4
         <span>posts</span>
       </div>
       <div class="article-info-block">
@@ -187,15 +185,24 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>Since I was studying Machine Learning on coursera.org, I had an idea of putting my thoughts during the study on my personal website: sunnylinmy.github.io (or mengyanglin.com). And the first course of Machine Learning is <a href="https://en.wikipedia.org/wiki/Gradient_descent" target="_blank" rel="external">Gradient Descent</a>.<br><img src="../images/ML_GD_fig1.png" alt=""><br>In econometrics, the most common way to build model for forecasting is to use linear model first. After writing down the basic formula of linear model<br>$$$y=\theta_0+\theta_1 x_1+…+\theta_n x_n$$$ , </p>
-<p>one may consider the OLS be the best way to estimate $$$\theta_0$$$  and  $$$\theta_1$$$ . As we all know, <a href="https://en.wikipedia.org/wiki/Ordinary_least_squares" target="_blank" rel="external">ordinary least squares</a> method is achieved by minimizing the differences between the observed responses and the responses predicted by the linear approximatin of the data, which is </p>
+<p>one may consider the OLS be the best way to estimate $$$\theta_0$$$  and  $$$\theta_1$$$ . As we all know, <a href="https://en.wikipedia.org/wiki/Ordinary_least_squares" target="_blank" rel="external">ordinary least squares</a> method is achieved by minimizing the differences between the observed responses and the responses predicted by the linear approximation of the data, which is </p>
 <p>$$${h_\theta(x^{(i)})=\hat{\theta_0} + \hat{\theta_1} x_1 +…+\hat{\theta_n} x_n}$$$ .  </p>
 <p>And the differences are  $$$J (\theta<em>0,\theta_1,…,\theta_n) = {1 \over 2m} \sum((h</em>\theta(x^(i)) - y^(i))^2)$$$ . </p>
 <p>Surely you can use functions embedded in R or Matlab to estimate the parameters very fast. However, how does embedded function in R or Matlab or other software minimize the cost function (indicated as the differences above) to calculate the parameters? One way is to use gradient descent. </p>
-<p>The main idea of gradient descent is that one starts with a guess of $$${\theta_0, \theta_1,…\theta_n}$$$ and change every $$$\theta$$$ a little bit by some rule everytime and calculate corresponding cost function everytime. Hopefully, the cost function result will become smaller and smaller (i.e. converge) and thus we will get a local minimum. And the $$${\theta_0, \theta_1,…\theta_n}$$$ at that time are the $$$\theta$$$ s we want. </p>
-<p>The some rule we need to change theta every time is:<br>$$$\theta_j = \theta_j - \alpha { \partial \over \partial \theta_j} J(\theta_0, \theta_1, …\theta_n)$$$.</p>
-<p>(The reason we use this rule is $$$J(\theta_0,\theta_1,…,\theta_n)$$$ decreases fastest if one goes from original $$$\theta$$$ s in the direction of the negative gradient of J at $$$\theta$$$ s. And this is also why this rule called gradient descent.)</p>
-<p>For example, we use matlab to do gradient descent. This example is from the first programming assignment of Machine Learning Course by Professor Andrew Ng on coursera.org. In the following code, we use theta to represent $$$\theta$$$ , computeCost to represent $$$J(\theta_0,\theta_1,…\theta_n)$$$.</p>
-<p><strong>Load Data</strong></p>
+<!--more->
+
+The main idea of gradient descent is that one starts with a guess of $$${\theta_0, \theta_1,...\theta_n}$$$ and change every $$$\theta$$$ a little bit by some rule everytime and calculate corresponding cost function everytime. Hopefully, the cost function result will become smaller and smaller (i.e. converge) and thus we will get a local minimum. And the $$${\theta_0, \theta_1,...\theta_n}$$$ at that time are the $$$\theta$$$ s we want. 
+
+The some rule we need to change theta every time is:
+$$$\theta_j = \theta_j - \alpha { \partial \over \partial \theta_j} J(\theta_0, \theta_1, ...\theta_n)$$$.
+
+(The reason we use this rule is $$$J(\theta_0,\theta_1,...,\theta_n)$$$ decreases fastest if one goes from original $$$\theta$$$ s in the direction of the negative gradient of J at $$$\theta$$$ s. And this is also why this rule called gradient descent.)
+
+For example, we use matlab to do gradient descent. This example is from the first programming assignment of Machine Learning Course by Professor Andrew Ng on coursera.org. In the following code, we use theta to represent $$$\theta$$$ , computeCost to represent $$$J(\theta_0,\theta_1,...\theta_n)$$$.
+
+
+**Load Data**
+
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data = load(&#39;yourdata.txt&#39;);&#10;X = data(:,1);&#10;y = data(:,2);&#10;m = length(y);</span><br></pre></td></tr></table></figure>
 <p><strong>Use Gradient Descent to Calculate parameters</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X = [ones(m, 1), data(:,1)]; % Add a column of ones to x&#10;theta = zeros(2, 1); % initialize fitting parameters&#10;&#10;% Some gradient descent settings&#10;iterations = 1500;&#10;alpha = 0.01;&#10;&#10;% compute and display initial cost&#10;computeCost(X, y, theta)&#10;&#10;% run gradient descent&#10;theta = gradientDescent(X, y, theta, alpha, iterations);</span><br></pre></td></tr></table></figure>
@@ -205,11 +212,11 @@
 <p><strong><em>gradientDescent</em></strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function [theta, J_history] = gradientDescent(X, y, theta, alpha, num_iters)&#10;   m = length(y); % number of training examples&#10;   J_history = zeros(num_iters, 1);  &#10;   for iter = 1:num_iters&#10;      cost = X&#39;*((X*theta)-y);&#10;      theta = theta - ((alpha/m)*cost);&#10;      J_history(iter) = computeCost(X, y, theta);&#10;   end&#10;end</span><br></pre></td></tr></table></figure>
 <p>The matlab code will print out 1500 lines of cost function results and when you see the J turn to be steady, the corresponding thetas are the thetas wanted. Furthermore, if we set a tolerance rate and if-else conditions, we don’t need to print out that many Js.<br>Following is the graph of cost J s and corresponding $$$\theta$$$ s.<br><img src="../images/ML_GD_fig2.png" alt=""><br><img src="../images/ML_GD_fig3.png" alt=""></p>
-
+-->
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sunnylinmy.github.io/2015/06/02/ML-Gradient-Descent1/" data-id="cib8i988i000f9so97sds6g0n" class="article-share-link">Share</a>
+      <a data-url="http://sunnylinmy.github.io/2015/06/02/ML-Gradient-Descent1/" data-id="cibd3k4ct000g4ro9b2yzgqnb" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Machine-Learning/">Machine Learning</a></li></ul>
@@ -220,11 +227,11 @@
     
 <nav id="article-nav">
   
-    <a href="/2015/06/18/Recycle-Station/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2015/06/25/ML-LG/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          Site Selection of Recycle Station of Nanshan District, Shenzhen, China
+          ML_LG
         
       </div>
     </a>
@@ -248,7 +255,25 @@
           <li>
             
             <div class="item-thumbnail">
-              <a href="/2015/06/22/CCAPM/" class="thumbnail">
+              <a href="/2015/06/26/Recycle-Station/" class="thumbnail">
+  
+    <span style="background-image:url(/images/Cluster.png
+)" alt="Site Selection of Recycle Station of Nanshan District, Shenzhen, China" class="thumbnail-image"></span>
+  
+</a>
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"><a class="article-category-link" href="/categories/Learning/">Learning</a></p>
+              <p class="item-title"><a href="/2015/06/26/Recycle-Station/" class="title">Site Selection of Recycle Station of Nanshan District, Shenzhen, China</a></p>
+              <p class="item-date"><time datetime="2015-06-26T04:05:47.000Z" itemprop="datePublished">2015-06-26</time></p>
+            </div>
+          </li>
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              <a href="/2015/06/26/CCAPM/" class="thumbnail">
   
     <span style="background-image:url(/images/mortgage_1.png
 )" alt="Empirical Test of Bond Market’s CCAPM Based on Asymmetric Exponential Power Distribution" class="thumbnail-image"></span>
@@ -258,26 +283,25 @@
             
             <div class="item-inner">
               <p class="item-category"><a class="article-category-link" href="/categories/Learning/">Learning</a></p>
-              <p class="item-title"><a href="/2015/06/22/CCAPM/" class="title">Empirical Test of Bond Market’s CCAPM Based on Asymmetric Exponential Power Distribution</a></p>
-              <p class="item-date"><time datetime="2015-06-23T00:37:21.000Z" itemprop="datePublished">2015-06-22</time></p>
+              <p class="item-title"><a href="/2015/06/26/CCAPM/" class="title">Empirical Test of Bond Market’s CCAPM Based on Asymmetric Exponential Power Distribution</a></p>
+              <p class="item-date"><time datetime="2015-06-26T04:05:31.000Z" itemprop="datePublished">2015-06-26</time></p>
             </div>
           </li>
         
           <li>
             
             <div class="item-thumbnail">
-              <a href="/2015/06/18/Recycle-Station/" class="thumbnail">
+              <a href="/2015/06/25/ML-LG/" class="thumbnail">
   
-    <span style="background-image:url(/images/Nanshan_map.png
-)" alt="Site Selection of Recycle Station of Nanshan District, Shenzhen, China" class="thumbnail-image"></span>
+    <span class="thumbnail-image thumbnail-none"></span>
   
 </a>
             </div>
             
             <div class="item-inner">
-              <p class="item-category"><a class="article-category-link" href="/categories/Learning/">Learning</a></p>
-              <p class="item-title"><a href="/2015/06/18/Recycle-Station/" class="title">Site Selection of Recycle Station of Nanshan District, Shenzhen, China</a></p>
-              <p class="item-date"><time datetime="2015-06-19T02:19:25.000Z" itemprop="datePublished">2015-06-18</time></p>
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2015/06/25/ML-LG/" class="title">ML_LG</a></p>
+              <p class="item-date"><time datetime="2015-06-26T01:53:10.000Z" itemprop="datePublished">2015-06-25</time></p>
             </div>
           </li>
         
@@ -335,7 +359,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">4</span></li></ul>
     </div>
   </div>
 
