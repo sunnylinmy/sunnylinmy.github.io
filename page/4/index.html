@@ -187,22 +187,12 @@
 <p>one may consider the OLS be the best way to estimate $$$\theta_0$$$  and  $$$\theta_1$$$ . As we all know, <a href="https://en.wikipedia.org/wiki/Ordinary_least_squares" target="_blank" rel="external">ordinary least squares</a> method is achieved by minimizing the differences between the observed responses and the responses predicted by the linear approximation of the data, which is </p>
 <p>$$${h_\theta(x^{(i)})=\hat{\theta_0} + \hat{\theta_1} x_1 +…+\hat{\theta_n} x_n}$$$ .  </p>
 <p>And the differences are  $$$J (\theta<em>0,\theta_1,…,\theta_n) = 1/(2m) \sum((h</em>\theta(x^{(i)}) - y^{(i)})^2)$$$ . </p>
-<!--More->
-
-Surely you can use functions embedded in R or Matlab to estimate the parameters very fast. However, how does embedded function in R or Matlab or other software minimize the cost function (indicated as the differences above) to calculate the parameters? One way is to use gradient descent. 
-
-The main idea of gradient descent is that one starts with a guess of $$${\theta_0, \theta_1,...\theta_n}$$$ and change every $$$\theta$$$ a little bit by some rule everytime and calculate corresponding cost function everytime. Hopefully, the cost function result will become smaller and smaller (i.e. converge) and thus we will get a local minimum. And the $$${\theta_0, \theta_1,...\theta_n}$$$ at that time are the $$$\theta$$$ s we want. 
-
-The some rule we need to change theta every time is:
-$$$\theta_j = \theta_j - \alpha { \partial \over \partial \theta_j} J(\theta_0, \theta_1, ...\theta_n)$$$.
-
-(The reason we use this rule is $$$J(\theta_0,\theta_1,...,\theta_n)$$$ decreases fastest if one goes from original $$$\theta$$$ s in the direction of the negative gradient of J at $$$\theta$$$ s. And this is also why this rule called gradient descent.)
-
-For example, we use matlab to do gradient descent. This example is from the first programming assignment of Machine Learning Course by Professor Andrew Ng on coursera.org. In the following code, we use theta to represent $$$\theta$$$ , computeCost to represent $$$J(\theta_0,\theta_1,...\theta_n)$$$.
-
-
-**Load Data**
-
+<p>Surely you can use functions embedded in R or Matlab to estimate the parameters very fast. However, how does embedded function in R or Matlab or other software minimize the cost function (indicated as the differences above) to calculate the parameters? One way is to use gradient descent. </p>
+<p>The main idea of gradient descent is that one starts with a guess of $$${\theta_0, \theta_1,…\theta_n}$$$ and change every $$$\theta$$$ a little bit by some rule everytime and calculate corresponding cost function everytime. Hopefully, the cost function result will become smaller and smaller (i.e. converge) and thus we will get a local minimum. And the $$${\theta_0, \theta_1,…\theta_n}$$$ at that time are the $$$\theta$$$ s we want. </p>
+<p>The some rule we need to change theta every time is:<br>$$$\theta_j = \theta_j - \alpha { \partial \over \partial \theta_j} J(\theta_0, \theta_1, …\theta_n)$$$.</p>
+<p>(The reason we use this rule is $$$J(\theta_0,\theta_1,…,\theta_n)$$$ decreases fastest if one goes from original $$$\theta$$$ s in the direction of the negative gradient of J at $$$\theta$$$ s. And this is also why this rule called gradient descent.)</p>
+<p>For example, we use matlab to do gradient descent. This example is from the first programming assignment of Machine Learning Course by Professor Andrew Ng on coursera.org. In the following code, we use theta to represent $$$\theta$$$ , computeCost to represent $$$J(\theta_0,\theta_1,…\theta_n)$$$.</p>
+<p><strong>Load Data</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data = load(&#39;yourdata.txt&#39;);&#10;X = data(:,1);&#10;y = data(:,2);&#10;m = length(y);</span><br></pre></td></tr></table></figure>
 <p><strong>Use Gradient Descent to Calculate parameters</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X = [ones(m, 1), data(:,1)]; % Add a column of ones to x&#10;theta = zeros(2, 1); % initialize fitting parameters&#10;&#10;% Some gradient descent settings&#10;iterations = 1500;&#10;alpha = 0.01;&#10;&#10;% compute and display initial cost&#10;computeCost(X, y, theta)&#10;&#10;% run gradient descent&#10;theta = gradientDescent(X, y, theta, alpha, iterations);</span><br></pre></td></tr></table></figure>
@@ -212,7 +202,7 @@ For example, we use matlab to do gradient descent. This example is from the firs
 <p><strong><em>gradientDescent</em></strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function [theta, J_history] = gradientDescent(X, y, theta, alpha, num_iters)&#10;   m = length(y); % number of training examples&#10;   J_history = zeros(num_iters, 1);  &#10;   for iter = 1:num_iters&#10;      cost = X&#39;*((X*theta)-y);&#10;      theta = theta - ((alpha/m)*cost);&#10;      J_history(iter) = computeCost(X, y, theta);&#10;   end&#10;end</span><br></pre></td></tr></table></figure>
 <p>The matlab code will print out 1500 lines of cost function results and when you see the J turn to be steady, the corresponding thetas are the thetas wanted. Furthermore, if we set a tolerance rate and if-else conditions, we don’t need to print out that many Js.<br>Following is the graph of cost J s and corresponding $$$\theta$$$ s.<br><img src="../images/ML_GD_fig2.png" alt=""><br><img src="../images/ML_GD_fig3.png" alt=""></p>
--->
+
       
     </div>
     <footer class="article-footer">
@@ -263,7 +253,7 @@ For example, we use matlab to do gradient descent. This example is from the firs
             <div class="item-thumbnail">
               <a href="/2015/06/20/Recycle-Station/" class="thumbnail">
   
-    <span style="background-image:url(/images/Cluster.png
+    <span style="background-image:url(/images/Nanshan_map.png
 )" alt="Site Selection of Recycle Station of Nanshan District, Shenzhen, China" class="thumbnail-image"></span>
   
 </a>
