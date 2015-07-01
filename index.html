@@ -169,7 +169,7 @@
           <div class="article-date">
   <i class="fa fa-calendar"></i>
   <a href="/2015/07/01/practice_recursion/">
-    <time datetime="2015-07-01T21:58:23.000Z" itemprop="datePublished">2015-07-01</time>
+    <time datetime="2015-07-01T22:20:19.000Z" itemprop="datePublished">2015-07-01</time>
   </a>
 </div>
           
@@ -188,7 +188,7 @@
 <p>Graph:<br><img src="/images/Sierpinski_1.gif" alt=""></p>
 <p>Actually there is a traditional way to draw recursion shape like this. See <a href="http://openbookproject.net/thinkcs/python/english3e/recursion.html" target="_blank" rel="external">koch fractals</a>. Inspired by this, a good version of Sierpinski triangle should look like this:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import turtle&#10;&#10;def draw_sierpinski(length,depth,some_turtle):&#10;    if depth==0:&#10;        for i in range(0,3):&#10;            some_turtle.fd(length)&#10;            some_turtle.left(120)&#10;    else:&#10;        draw_sierpinski(length/2,depth-1,some_turtle)&#10;        some_turtle.fd(length/2)&#10;        draw_sierpinski(length/2,depth-1,some_turtle)&#10;        some_turtle.bk(length/2)&#10;        some_turtle.left(60)&#10;        some_turtle.fd(length/2)&#10;        some_turtle.right(60)&#10;        draw_sierpinski(length/2,depth-1,some_turtle)&#10;        some_turtle.left(60)&#10;        some_turtle.bk(length/2)&#10;        some_turtle.right(60)&#10;        &#10;def draw_art():&#10;    window = turtle.Screen()&#10;    turtle0 = turtle.Turtle()&#10;    draw_sierpinski(100,3,some_turtle=turtle0)&#10;    window.exitonclick()&#10;&#10;draw_art()</span><br></pre></td></tr></table></figure>
-<p>Graph:<br><img src="/images/Sierpinski_2.png" alt=""></p>
+<p>Graph:<br><img src="/images/Sierpinski_2.gif" alt=""></p>
 
       
     </div>
@@ -232,7 +232,7 @@
             <div class="item-inner">
               <p class="item-category"><a class="article-category-link" href="/categories/interesting-staff/">interesting staff</a></p>
               <p class="item-title"><a href="/2015/07/01/practice_recursion/" class="title">Practice recursion</a></p>
-              <p class="item-date"><time datetime="2015-07-01T21:58:23.000Z" itemprop="datePublished">2015-07-01</time></p>
+              <p class="item-date"><time datetime="2015-07-01T22:20:19.000Z" itemprop="datePublished">2015-07-01</time></p>
             </div>
           </li>
         
