@@ -3,19 +3,23 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Machine Learning Study Notes - Regularized Logistic Regression | Mengyang Lin&#39;s Blog</title>
+  <title>Mengyang Lin&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="When I was taking Applied Econometrics Course at Duke University,  I learned logistic regression as a regression method, the dependent variable of which is cases such as people smoke or not.  In econo">
+  <meta name="description" content="title: Practice recursiontags: pythoncategories: interesting staff
+Draw sierpinski triangle using turtle in python. If one tries to draw the biggest triangle first, he/she will find the method has ver">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Machine Learning Study Notes - Regularized Logistic Regression">
-<meta property="og:url" content="http://sunnylinmy.github.io/2015/06/25/ML-LG/index.html">
+<meta property="og:title" content="Mengyang Lin's Blog">
+<meta property="og:url" content="http://sunnylinmy.github.io/2015/07/01/practice_recursion/index.html">
 <meta property="og:site_name" content="Mengyang Lin's Blog">
-<meta property="og:description" content="When I was taking Applied Econometrics Course at Duke University,  I learned logistic regression as a regression method, the dependent variable of which is cases such as people smoke or not.  In econo">
-<meta property="og:image" content="http://sunnylinmy.github.io/images/logistic_regression.png">
-<meta property="og:updated_time" content="2015-06-29T21:31:37.000Z">
+<meta property="og:description" content="title: Practice recursiontags: pythoncategories: interesting staff
+Draw sierpinski triangle using turtle in python. If one tries to draw the biggest triangle first, he/she will find the method has ver">
+<meta property="og:image" content="http://g.recordit.co/3pO5s2xjKc.gif">
+<meta property="og:image" content="http://g.recordit.co/6BEJsdV2Vf.gif">
+<meta property="og:updated_time" content="2015-07-01T21:34:47.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Machine Learning Study Notes - Regularized Logistic Regression">
-<meta name="twitter:description" content="When I was taking Applied Econometrics Course at Duke University,  I learned logistic regression as a regression method, the dependent variable of which is cases such as people smoke or not.  In econo">
+<meta name="twitter:title" content="Mengyang Lin's Blog">
+<meta name="twitter:description" content="title: Practice recursiontags: pythoncategories: interesting staff
+Draw sierpinski triangle using turtle in python. If one tries to draw the biggest triangle first, he/she will find the method has ver">
   
   
     <link rel="icon" href="/favicon.png">
@@ -153,76 +157,37 @@
   </div>
 </aside>
       
-      <section id="main"><article id="post-ML-LG" class="article article-type-post" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-practice_recursion" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
     
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Machine Learning Study Notes - Regularized Logistic Regression
-    </h1>
-  
-
-        <div class="article-meta">
-          <div class="article-date">
-  <i class="fa fa-calendar"></i>
-  <a href="/2015/06/25/ML-LG/">
-    <time datetime="2015-06-26T01:53:10.000Z" itemprop="datePublished">2015-06-25</time>
-  </a>
-</div>
-          
-  <div class="article-category">
-  	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/Learning/">Learning</a>
-  </div>
-
-        </div>
-      </header>
-    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>When I was taking Applied Econometrics Course at Duke University,  I learned logistic regression as a regression method, the dependent variable of which is cases such as people smoke or not.  In econometrics modeling, what economists consider most is whether the model makes economic sense or not with maybe omitted variables or endogeneity. However, when dealing with large data sets with handreds or thousands of variables, we need to consider the issue of overfitting, which occurs when the machine learning model describes random error instead of actual relationship.</p>
-<p>To solve overfitting, one common method is to regularize model. <a href="https://en.wikipedia.org/wiki/Regularization_(mathematics" target="_blank" rel="external">Regularization</a>). Continuing with gradient descent, to regularize, we can add another term at the tail of original cost function and gradient descent function. Add this term, $$${\lambda \over 2m} \theta^2$$$, to cost function and $$${\lambda \over m } \theta$$$ to gradient function. This is the form of L2 regularization. According to wikipedia, L1 regularization is often preferred because it produces sparse models and thus performs feature selection within the learning algorithm, but since the L1 form is not differentiable, and can’t have a closed form, I use L2 form here.</p>
-<p>My regularized cost function originally looks like this, which is also a good example of including for-loop in Matlab(which is bad): </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function [J, grad] = costFunctionReg(theta, X, y, lambda)&#10;&#10;   m = length(y); % number of training examples&#10;   J = 0;&#10;   grad = zeros(size(theta));&#10;   g = sigmoid(X*theta);&#10;   n = length(theta);&#10;&#10;   J = J = (1/m)*sum(-y&#39;*log(g)-(1-y)&#39;*log(1-g)) + lambda/(2*m)*theta(2:n,1)&#39;*theta(2:n,1) ;&#10;   grad(1) = (1/m)*sum(transpose(X(:,1))*(g-y))&#10;&#10;   for i = 2:n&#10;   grad(i) = (1/m)*sum(transpose(X(:,i))*(g-y))+ lambda/m *theta(i);&#10;    end&#10;&#10;end</span><br></pre></td></tr></table></figure>
-<p>Since matlab calculates based on matrix, we should avoid for-loop as much as possible. One useful tool to vectorize for loop is to use element-wise multiplication operation (.*) and sum. Modify the above function with vectorization:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function [J, grad] = lrCostFunction(theta, X, y, lambda)&#10;&#10;   m = length(y); % number of training examples&#10;   J = 0;&#10;   grad = zeros(size(theta));&#10;&#10;   J = 1/m * sum(-y.*log(sigmoid(X*theta))-(ones(size(y),1)-y).*log(1-sigmoid(X*theta))) + lambda/(2*m)*theta(2:size(theta))&#39;*theta(2:size(theta));                                                                               &#10;   grad(1)= 1/m * (sigmoid(X*theta)-y)&#39;*X(:,1);&#10;                       &#10;   grad(2:size(theta)) = 1/m * ((sigmoid(X*theta)-y)&#39;*X(:,2:size(theta)))&#39;+ lambda/m*theta(2:size(theta)) ;&#10;&#10;   grad = grad(:);&#10;&#10;end</span><br></pre></td></tr></table></figure>
-<p>After completing cost function, we can write in the main.m file to use <a href="http://www.mathworks.com/help/optim/ug/fminunc.html" target="_blank" rel="external">fminunc</a>to calculate $$$\theta$$$ and then predict accuracy on training set:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">initial_theta = zeros(size(X, 2), 1);&#10;lambda = 0.1;&#10;&#10;% Set Options&#10;options = optimset(&#39;GradObj&#39;, &#39;on&#39;, &#39;MaxIter&#39;, 400);&#10;&#10;% Optimize&#10;[theta, J, exit_flag] = ...&#10;&#9;fminunc(@(t)(costFunctionReg(t, X, y, lambda)), initial_theta, options);&#10;&#10;p = predict(theta,X);&#10;mean(double(p==y))*100</span><br></pre></td></tr></table></figure>
-<p>The accuracy for this project is 83%. As for logistic regression, the function of predict is like: </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function p = predict(theta, X)&#10;&#10;m = size(X, 1); % Number of training examples&#10;p = zeros(m, 1);&#10;for i = 1:m&#10;    if (sigmoid(X(i,:)*theta) &#62;= 0.5)&#10;         p(i)= 1;&#10;    else&#10;         p(i)= 0;&#10;end&#10;                                       &#10;end</span><br></pre></td></tr></table></figure>
-<p><img src="/images/logistic_regression.png" alt=""></p>
+        <p>title: Practice recursion<br>tags: python<br>categories: interesting staff</p>
+<p>Draw sierpinski triangle using turtle in python. If one tries to draw the biggest triangle first, he/she will find the method has very bad extensibility since there will be too many position. The first version (it’s not good at all and I know it):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import turtle&#10;&#10;&#10;def single_turtle_triangle(some_turtle,length):&#10;    position=[]&#10;    for i in range(0,3):&#10;         some_turtle.forward(length)&#10;         position.append(some_turtle.pos())&#10;         some_turtle.left(120)&#10;    some_turtle.forward(length/2)&#10;    position.append(some_turtle.pos())&#10;    some_turtle.left(120)&#10;    for i in range(0,3):&#10;        some_turtle.forward(length/2)&#10;        position.append(some_turtle.pos())&#10;        some_turtle.right(120)&#10;    &#10;    some_turtle.setheading(0)&#10;    some_turtle.up()&#10;    del position[-1]&#10;    return position&#10;&#10;def multiple_turtle_triangle(some_turtle,recursion,length):&#10; &#10;    position = single_turtle_triangle(some_turtle,length)&#10;    turtles=[]&#10;    n=recursion&#10;    S=n*(n+1)*(n+2)/6-(n-1)*(n)*(n+1)/6&#10;    for i in range(0,S):&#10;        turtles.append(some_turtle)&#10;        &#10;    i=2&#10;    for i_turtle in turtles:&#10;        i_turtle.pu()&#10;        i_turtle.setpos(position[i])&#10;        i_turtle.pd()&#10;        single_turtle_triangle(i_turtle,length/2)&#10;        i=i+1&#10;    print(position)&#10;&#10;def draw_art():&#10;&#10;    window=turtle.Screen()&#10;    window.bgcolor(&#34;white&#34;)&#10; &#10;    turtle0=turtle.Turtle()&#10;    turtle0.shape(&#34;arrow&#34;)&#10;    turtle0.color(&#34;red&#34;)&#10;    turtle0.pu()&#10;    turtle0.setpos(0,0)&#10;    turtle0.pd()&#10;&#10;    multiple_turtle_triangle(turtle0,2,200)&#10;    window.exitonclick()&#10;&#10;draw_art()</span><br></pre></td></tr></table></figure>
+<p>Graph:<br><img src="http://g.recordit.co/3pO5s2xjKc.gif" alt=""></p>
+<p>Actually there is a traditional way to draw recursion shape like this. See <a href="http://openbookproject.net/thinkcs/python/english3e/recursion.html" target="_blank" rel="external">koch fractals</a>. Inspired by this, a good version of Sierpinski triangle should look like this:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import turtle&#10;&#10;def draw_sierpinski(length,depth,some_turtle):&#10;    if depth==0:&#10;        for i in range(0,3):&#10;            some_turtle.fd(length)&#10;            some_turtle.left(120)&#10;    else:&#10;        draw_sierpinski(length/2,depth-1,some_turtle)&#10;        some_turtle.fd(length/2)&#10;        draw_sierpinski(length/2,depth-1,some_turtle)&#10;        some_turtle.bk(length/2)&#10;        some_turtle.left(60)&#10;        some_turtle.fd(length/2)&#10;        some_turtle.right(60)&#10;        draw_sierpinski(length/2,depth-1,some_turtle)&#10;        some_turtle.left(60)&#10;        some_turtle.bk(length/2)&#10;        some_turtle.right(60)&#10;        &#10;def draw_art():&#10;    window = turtle.Screen()&#10;    turtle0 = turtle.Turtle()&#10;    draw_sierpinski(100,3,some_turtle=turtle0)&#10;    window.exitonclick()&#10;&#10;draw_art()</span><br></pre></td></tr></table></figure>
+<p>Graph:<br><img src="http://g.recordit.co/6BEJsdV2Vf.gif" alt=""></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sunnylinmy.github.io/2015/06/25/ML-LG/" data-id="cibifhjz60000eio9o78zd8uw" class="article-share-link">Share</a>
+      <a data-url="http://sunnylinmy.github.io/2015/07/01/practice_recursion/" data-id="cibla9pfs00003oo990vzplgd" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Machine-Learning/">Machine Learning</a></li></ul>
-
     </footer>
   </div>
   
     
 <nav id="article-nav">
   
-    <a href="/2015/07/01/practice_recursion/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          (no title)
-        
-      </div>
-    </a>
   
-  
-    <a href="/2015/06/20/Recycle-Station/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2015/06/25/ML-LG/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Site Selection of Recycle Station of Nanshan District, Shenzhen, China</div>
+      <div class="article-nav-title">Machine Learning Study Notes - Regularized Logistic Regression</div>
     </a>
   
 </nav>

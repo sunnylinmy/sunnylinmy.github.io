@@ -120,12 +120,12 @@
 		  <img id="avatar" src="/css/images/Duke Garden_Portrait_square.jpg">
       <h2 id="name">Mengyang Lin</h2>
       <h3 id="title">Seeking Full-time Opportunity</h3>
-      <span id="location"><i class="fa fa-map-marker"></i>Boston, Massachusetts</span>
+      <span id="location"><i class="fa fa-map-marker"></i>Cambridge, Massachusetts</span>
       <a id="follow" href="https://github.com/sunnylinmy/">FOLLOW</a>
   	</div>
     <div class="article-info profile-block">
       <div class="article-info-block">
-        4
+        5
         <span>posts</span>
       </div>
       <div class="article-info-block">
@@ -140,7 +140,7 @@
         
           <td><a href="http://github.com/sunnylinmy/" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
         
-          <td><a href="/#" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
+          <td><a href="https://www.facebook.com/monica.lin.duke" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></td>
         
           <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
         
@@ -152,57 +152,27 @@
 </aside>
       
       <section id="main">
-      <article id="post-ML-LG" class="article article-type-post" itemscope itemprop="blogPost">
+      <article id="post-practice_recursion" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/25/ML-LG/">Machine Learning Study Notes - Regularized Logistic Regression</a>
-    </h1>
-  
-
-        <div class="article-meta">
-          <div class="article-date">
-  <i class="fa fa-calendar"></i>
-  <a href="/2015/06/25/ML-LG/">
-    <time datetime="2015-06-26T01:53:10.000Z" itemprop="datePublished">2015-06-25</time>
-  </a>
-</div>
-          
-  <div class="article-category">
-  	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/Learning/">Learning</a>
-  </div>
-
-        </div>
-      </header>
-    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>When I was taking Applied Econometrics Course at Duke University,  I learned logistic regression as a regression method, the dependent variable of which is cases such as people smoke or not.  In econometrics modeling, what economists consider most is whether the model makes economic sense or not with maybe omitted variables or endogeneity. However, when dealing with large data sets with handreds or thousands of variables, we need to consider the issue of overfitting, which occurs when the machine learning model describes random error instead of actual relationship.</p>
-<p>To solve overfitting, one common method is to regularize model. <a href="https://en.wikipedia.org/wiki/Regularization_(mathematics" target="_blank" rel="external">Regularization</a>). Continuing with gradient descent, to regularize, we can add another term at the tail of original cost function and gradient descent function. Add this term, $$${\lambda \over 2m} \theta^2$$$, to cost function and $$${\lambda \over m } \theta$$$ to gradient function. This is the form of L2 regularization. According to wikipedia, L1 regularization is often preferred because it produces sparse models and thus performs feature selection within the learning algorithm, but since the L1 form is not differentiable, and can’t have a closed form, I use L2 form here.</p>
-<p>My regularized cost function originally looks like this, which is also a good example of including for-loop in Matlab(which is bad): </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function [J, grad] = costFunctionReg(theta, X, y, lambda)&#10;&#10;   m = length(y); % number of training examples&#10;   J = 0;&#10;   grad = zeros(size(theta));&#10;   g = sigmoid(X*theta);&#10;   n = length(theta);&#10;&#10;   J = J = (1/m)*sum(-y&#39;*log(g)-(1-y)&#39;*log(1-g)) + lambda/(2*m)*theta(2:n,1)&#39;*theta(2:n,1) ;&#10;   grad(1) = (1/m)*sum(transpose(X(:,1))*(g-y))&#10;&#10;   for i = 2:n&#10;   grad(i) = (1/m)*sum(transpose(X(:,i))*(g-y))+ lambda/m *theta(i);&#10;    end&#10;&#10;end</span><br></pre></td></tr></table></figure>
-<p>Since matlab calculates based on matrix, we should avoid for-loop as much as possible. One useful tool to vectorize for loop is to use element-wise multiplication operation (.*) and sum. Modify the above function with vectorization:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function [J, grad] = lrCostFunction(theta, X, y, lambda)&#10;&#10;   m = length(y); % number of training examples&#10;   J = 0;&#10;   grad = zeros(size(theta));&#10;&#10;   J = 1/m * sum(-y.*log(sigmoid(X*theta))-(ones(size(y),1)-y).*log(1-sigmoid(X*theta))) + lambda/(2*m)*theta(2:size(theta))&#39;*theta(2:size(theta));                                                                               &#10;   grad(1)= 1/m * (sigmoid(X*theta)-y)&#39;*X(:,1);&#10;                       &#10;   grad(2:size(theta)) = 1/m * ((sigmoid(X*theta)-y)&#39;*X(:,2:size(theta)))&#39;+ lambda/m*theta(2:size(theta)) ;&#10;&#10;   grad = grad(:);&#10;&#10;end</span><br></pre></td></tr></table></figure>
-<p>After completing cost function, we can write in the main.m file to use <a href="http://www.mathworks.com/help/optim/ug/fminunc.html" target="_blank" rel="external">fminunc</a>to calculate $$$\theta$$$ and then predict accuracy on training set:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">initial_theta = zeros(size(X, 2), 1);&#10;lambda = 0.1;&#10;&#10;% Set Options&#10;options = optimset(&#39;GradObj&#39;, &#39;on&#39;, &#39;MaxIter&#39;, 400);&#10;&#10;% Optimize&#10;[theta, J, exit_flag] = ...&#10;&#9;fminunc(@(t)(costFunctionReg(t, X, y, lambda)), initial_theta, options);&#10;&#10;p = predict(theta,X);&#10;mean(double(p==y))*100</span><br></pre></td></tr></table></figure>
-<p>The accuracy for this project is 83%. As for logistic regression, the function of predict is like: </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function p = predict(theta, X)&#10;&#10;m = size(X, 1); % Number of training examples&#10;p = zeros(m, 1);&#10;for i = 1:m&#10;    if (sigmoid(X(i,:)*theta) &#62;= 0.5)&#10;         p(i)= 1;&#10;    else&#10;         p(i)= 0;&#10;end&#10;                                       &#10;end</span><br></pre></td></tr></table></figure>
-<p><img src="/images/logistic_regression.png" alt=""></p>
+        <p>title: Practice recursion<br>tags: python<br>categories: interesting staff</p>
+<p>Draw sierpinski triangle using turtle in python. If one tries to draw the biggest triangle first, he/she will find the method has very bad extensibility since there will be too many position. The first version (it’s not good at all and I know it):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import turtle&#10;&#10;&#10;def single_turtle_triangle(some_turtle,length):&#10;    position=[]&#10;    for i in range(0,3):&#10;         some_turtle.forward(length)&#10;         position.append(some_turtle.pos())&#10;         some_turtle.left(120)&#10;    some_turtle.forward(length/2)&#10;    position.append(some_turtle.pos())&#10;    some_turtle.left(120)&#10;    for i in range(0,3):&#10;        some_turtle.forward(length/2)&#10;        position.append(some_turtle.pos())&#10;        some_turtle.right(120)&#10;    &#10;    some_turtle.setheading(0)&#10;    some_turtle.up()&#10;    del position[-1]&#10;    return position&#10;&#10;def multiple_turtle_triangle(some_turtle,recursion,length):&#10; &#10;    position = single_turtle_triangle(some_turtle,length)&#10;    turtles=[]&#10;    n=recursion&#10;    S=n*(n+1)*(n+2)/6-(n-1)*(n)*(n+1)/6&#10;    for i in range(0,S):&#10;        turtles.append(some_turtle)&#10;        &#10;    i=2&#10;    for i_turtle in turtles:&#10;        i_turtle.pu()&#10;        i_turtle.setpos(position[i])&#10;        i_turtle.pd()&#10;        single_turtle_triangle(i_turtle,length/2)&#10;        i=i+1&#10;    print(position)&#10;&#10;def draw_art():&#10;&#10;    window=turtle.Screen()&#10;    window.bgcolor(&#34;white&#34;)&#10; &#10;    turtle0=turtle.Turtle()&#10;    turtle0.shape(&#34;arrow&#34;)&#10;    turtle0.color(&#34;red&#34;)&#10;    turtle0.pu()&#10;    turtle0.setpos(0,0)&#10;    turtle0.pd()&#10;&#10;    multiple_turtle_triangle(turtle0,2,200)&#10;    window.exitonclick()&#10;&#10;draw_art()</span><br></pre></td></tr></table></figure>
+<p>Graph:<br><img src="http://g.recordit.co/3pO5s2xjKc.gif" alt=""></p>
+<p>Actually there is a traditional way to draw recursion shape like this. See <a href="http://openbookproject.net/thinkcs/python/english3e/recursion.html" target="_blank" rel="external">koch fractals</a>. Inspired by this, a good version of Sierpinski triangle should look like this:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import turtle&#10;&#10;def draw_sierpinski(length,depth,some_turtle):&#10;    if depth==0:&#10;        for i in range(0,3):&#10;            some_turtle.fd(length)&#10;            some_turtle.left(120)&#10;    else:&#10;        draw_sierpinski(length/2,depth-1,some_turtle)&#10;        some_turtle.fd(length/2)&#10;        draw_sierpinski(length/2,depth-1,some_turtle)&#10;        some_turtle.bk(length/2)&#10;        some_turtle.left(60)&#10;        some_turtle.fd(length/2)&#10;        some_turtle.right(60)&#10;        draw_sierpinski(length/2,depth-1,some_turtle)&#10;        some_turtle.left(60)&#10;        some_turtle.bk(length/2)&#10;        some_turtle.right(60)&#10;        &#10;def draw_art():&#10;    window = turtle.Screen()&#10;    turtle0 = turtle.Turtle()&#10;    draw_sierpinski(100,3,some_turtle=turtle0)&#10;    window.exitonclick()&#10;&#10;draw_art()</span><br></pre></td></tr></table></figure>
+<p>Graph:<br><img src="http://g.recordit.co/6BEJsdV2Vf.gif" alt=""></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sunnylinmy.github.io/2015/06/25/ML-LG/" data-id="cibifhjz60000eio9o78zd8uw" class="article-share-link">Share</a>
+      <a data-url="http://sunnylinmy.github.io/2015/07/01/practice_recursion/" data-id="cibla9pfs00003oo990vzplgd" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Machine-Learning/">Machine Learning</a></li></ul>
-
     </footer>
   </div>
   
@@ -211,7 +181,7 @@
 
     
       <nav id="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
       </nav>
     </section>
       
@@ -222,6 +192,24 @@
     <h3 class="widget-title">recents</h3>
     <div class="widget">
       <ul id="recent-post" class="">
+        
+          <li>
+            
+            <div class="item-thumbnail">
+              <a href="/2015/07/01/practice_recursion/" class="thumbnail">
+  
+    <span style="background-image:url(http://g.recordit.co/3pO5s2xjKc.gif
+)" alt="" class="thumbnail-image"></span>
+  
+</a>
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category"></p>
+              <p class="item-title"><a href="/2015/07/01/practice_recursion/" class="title"></a></p>
+              <p class="item-date"><time datetime="2015-07-01T21:34:48.000Z" itemprop="datePublished">2015-07-01</time></p>
+            </div>
+          </li>
         
           <li>
             
@@ -331,7 +319,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">4</span></li></ul>
     </div>
   </div>
 

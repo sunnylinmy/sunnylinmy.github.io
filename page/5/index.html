@@ -3,19 +3,17 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Machine Learning Study Notes - Regularized Logistic Regression | Mengyang Lin&#39;s Blog</title>
+  <title>Mengyang Lin&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="When I was taking Applied Econometrics Course at Duke University,  I learned logistic regression as a regression method, the dependent variable of which is cases such as people smoke or not.  In econo">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Machine Learning Study Notes - Regularized Logistic Regression">
-<meta property="og:url" content="http://sunnylinmy.github.io/2015/06/25/ML-LG/index.html">
+  <meta name="description" content="Mengyang Lin&apos;s Blog">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Mengyang Lin's Blog">
+<meta property="og:url" content="http://sunnylinmy.github.io/page/5/index.html">
 <meta property="og:site_name" content="Mengyang Lin's Blog">
-<meta property="og:description" content="When I was taking Applied Econometrics Course at Duke University,  I learned logistic regression as a regression method, the dependent variable of which is cases such as people smoke or not.  In econo">
-<meta property="og:image" content="http://sunnylinmy.github.io/images/logistic_regression.png">
-<meta property="og:updated_time" content="2015-06-29T21:31:37.000Z">
+<meta property="og:description" content="Mengyang Lin&apos;s Blog">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Machine Learning Study Notes - Regularized Logistic Regression">
-<meta name="twitter:description" content="When I was taking Applied Econometrics Course at Duke University,  I learned logistic regression as a regression method, the dependent variable of which is cases such as people smoke or not.  In econo">
+<meta name="twitter:title" content="Mengyang Lin's Blog">
+<meta name="twitter:description" content="Mengyang Lin&apos;s Blog">
   
   
     <link rel="icon" href="/favicon.png">
@@ -153,7 +151,8 @@
   </div>
 </aside>
       
-      <section id="main"><article id="post-ML-LG" class="article article-type-post" itemscope itemprop="blogPost">
+      <section id="main">
+      <article id="post-ML-Gradient-Descent1" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -161,22 +160,22 @@
       <header class="article-header">
         
   
-    <h1 class="article-title" itemprop="name">
-      Machine Learning Study Notes - Regularized Logistic Regression
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/02/ML-Gradient-Descent1/">Machine Learning Study Notes - Gradient Descent</a>
     </h1>
   
 
         <div class="article-meta">
           <div class="article-date">
   <i class="fa fa-calendar"></i>
-  <a href="/2015/06/25/ML-LG/">
-    <time datetime="2015-06-26T01:53:10.000Z" itemprop="datePublished">2015-06-25</time>
+  <a href="/2015/06/02/ML-Gradient-Descent1/">
+    <time datetime="2015-06-02T04:00:00.000Z" itemprop="datePublished">2015-06-02</time>
   </a>
 </div>
           
   <div class="article-category">
   	<i class="fa fa-folder"></i>
-    <a class="article-category-link" href="/categories/Learning/">Learning</a>
+    <a class="article-category-link" href="/categories/learning/">learning</a>
   </div>
 
         </div>
@@ -184,22 +183,32 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>When I was taking Applied Econometrics Course at Duke University,  I learned logistic regression as a regression method, the dependent variable of which is cases such as people smoke or not.  In econometrics modeling, what economists consider most is whether the model makes economic sense or not with maybe omitted variables or endogeneity. However, when dealing with large data sets with handreds or thousands of variables, we need to consider the issue of overfitting, which occurs when the machine learning model describes random error instead of actual relationship.</p>
-<p>To solve overfitting, one common method is to regularize model. <a href="https://en.wikipedia.org/wiki/Regularization_(mathematics" target="_blank" rel="external">Regularization</a>). Continuing with gradient descent, to regularize, we can add another term at the tail of original cost function and gradient descent function. Add this term, $$${\lambda \over 2m} \theta^2$$$, to cost function and $$${\lambda \over m } \theta$$$ to gradient function. This is the form of L2 regularization. According to wikipedia, L1 regularization is often preferred because it produces sparse models and thus performs feature selection within the learning algorithm, but since the L1 form is not differentiable, and can’t have a closed form, I use L2 form here.</p>
-<p>My regularized cost function originally looks like this, which is also a good example of including for-loop in Matlab(which is bad): </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function [J, grad] = costFunctionReg(theta, X, y, lambda)&#10;&#10;   m = length(y); % number of training examples&#10;   J = 0;&#10;   grad = zeros(size(theta));&#10;   g = sigmoid(X*theta);&#10;   n = length(theta);&#10;&#10;   J = J = (1/m)*sum(-y&#39;*log(g)-(1-y)&#39;*log(1-g)) + lambda/(2*m)*theta(2:n,1)&#39;*theta(2:n,1) ;&#10;   grad(1) = (1/m)*sum(transpose(X(:,1))*(g-y))&#10;&#10;   for i = 2:n&#10;   grad(i) = (1/m)*sum(transpose(X(:,i))*(g-y))+ lambda/m *theta(i);&#10;    end&#10;&#10;end</span><br></pre></td></tr></table></figure>
-<p>Since matlab calculates based on matrix, we should avoid for-loop as much as possible. One useful tool to vectorize for loop is to use element-wise multiplication operation (.*) and sum. Modify the above function with vectorization:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function [J, grad] = lrCostFunction(theta, X, y, lambda)&#10;&#10;   m = length(y); % number of training examples&#10;   J = 0;&#10;   grad = zeros(size(theta));&#10;&#10;   J = 1/m * sum(-y.*log(sigmoid(X*theta))-(ones(size(y),1)-y).*log(1-sigmoid(X*theta))) + lambda/(2*m)*theta(2:size(theta))&#39;*theta(2:size(theta));                                                                               &#10;   grad(1)= 1/m * (sigmoid(X*theta)-y)&#39;*X(:,1);&#10;                       &#10;   grad(2:size(theta)) = 1/m * ((sigmoid(X*theta)-y)&#39;*X(:,2:size(theta)))&#39;+ lambda/m*theta(2:size(theta)) ;&#10;&#10;   grad = grad(:);&#10;&#10;end</span><br></pre></td></tr></table></figure>
-<p>After completing cost function, we can write in the main.m file to use <a href="http://www.mathworks.com/help/optim/ug/fminunc.html" target="_blank" rel="external">fminunc</a>to calculate $$$\theta$$$ and then predict accuracy on training set:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">initial_theta = zeros(size(X, 2), 1);&#10;lambda = 0.1;&#10;&#10;% Set Options&#10;options = optimset(&#39;GradObj&#39;, &#39;on&#39;, &#39;MaxIter&#39;, 400);&#10;&#10;% Optimize&#10;[theta, J, exit_flag] = ...&#10;&#9;fminunc(@(t)(costFunctionReg(t, X, y, lambda)), initial_theta, options);&#10;&#10;p = predict(theta,X);&#10;mean(double(p==y))*100</span><br></pre></td></tr></table></figure>
-<p>The accuracy for this project is 83%. As for logistic regression, the function of predict is like: </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function p = predict(theta, X)&#10;&#10;m = size(X, 1); % Number of training examples&#10;p = zeros(m, 1);&#10;for i = 1:m&#10;    if (sigmoid(X(i,:)*theta) &#62;= 0.5)&#10;         p(i)= 1;&#10;    else&#10;         p(i)= 0;&#10;end&#10;                                       &#10;end</span><br></pre></td></tr></table></figure>
-<p><img src="/images/logistic_regression.png" alt=""></p>
+        <p>Since I was studying Machine Learning on coursera.org, I had an idea of putting my thoughts during the study on my personal website: sunnylinmy.github.io (or mengyanglin.com). And the first course of Machine Learning is <a href="https://en.wikipedia.org/wiki/Gradient_descent" target="_blank" rel="external">Gradient Descent</a>. </p>
+<p><img src="/images/ML_GD_fig1.png" alt=""></p>
+<p>In econometrics, the most common way to build model for forecasting is to use linear model first. After writing down the basic formula of linear model<br>$$$y=\theta_0+\theta_1 x_1+…+\theta_n x_n$$$ , </p>
+<p>one may consider the OLS be the best way to estimate $$$\theta_0$$$  and  $$$\theta_1$$$ . As we all know, <a href="https://en.wikipedia.org/wiki/Ordinary_least_squares" target="_blank" rel="external">ordinary least squares</a> method is achieved by minimizing the differences between the observed responses and the responses predicted by the linear approximation of the data, which is </p>
+<p>$$${h_\theta(x^{(i)})=\hat{\theta_0} + \hat{\theta_1} x_1 +…+\hat{\theta_n} x_n}$$$ .  </p>
+<p>And the differences are  $$$J(\theta<em>0,\theta_1,…,\theta_n}) = 1/(2m) \sum({h</em>\theta (x^{(i)})} - y^{(i)})^2$$$ . </p>
+<p>Surely you can use functions embedded in R or Matlab to estimate the parameters very fast. However, how does embedded function in R or Matlab or other software minimize the cost function (indicated as the differences above) to calculate the parameters? One way is to use gradient descent. </p>
+<p>The main idea of gradient descent is that one starts with a guess of $$${\theta_0, \theta_1,…\theta_n}$$$ and change every $$$\theta$$$ a little bit by some rule every time and calculate corresponding cost function every time. Hopefully, the cost function result will become smaller and smaller (i.e. converge) and thus we will get a local minimum. And the $$${\theta_0, \theta_1,…\theta_n}$$$ at that time are the $$$\theta$$$ s we want. </p>
+<p>The some rule we need to change theta every time is:<br>$$$\theta_j = \theta_j - \alpha { \partial \over \partial \theta_j} J(\theta_0, \theta_1, …\theta_n)$$$.</p>
+<p>(The reason we use this rule is $$$J(\theta_0,\theta_1,…,\theta_n)$$$ decreases fastest if one goes from original $$$\theta$$$ s in the direction of the negative gradient of J at $$$\theta$$$ s. And this is also why this rule called gradient descent.)</p>
+<p>For example, we use matlab to do gradient descent. This example is from the first programming assignment of Machine Learning Course by Professor Andrew Ng on coursera.org. In the following code, we use theta to represent $$$\theta$$$ , computeCost to represent $$$J(\theta_0,\theta_1,…\theta_n)$$$.</p>
+<p><strong>Load Data</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data = load(&#39;yourdata.txt&#39;);&#10;X = data(:,1);&#10;y = data(:,2);&#10;m = length(y);</span><br></pre></td></tr></table></figure>
+<p><strong>Use Gradient Descent to Calculate parameters</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X = [ones(m, 1), data(:,1)]; % Add a column of ones to x&#10;theta = zeros(2, 1); % initialize fitting parameters&#10;&#10;% Some gradient descent settings&#10;iterations = 1500;&#10;alpha = 0.01;&#10;&#10;% compute and display initial cost&#10;computeCost(X, y, theta)&#10;&#10;% run gradient descent&#10;theta = gradientDescent(X, y, theta, alpha, iterations);</span><br></pre></td></tr></table></figure>
+<p>Thus, we need to write two functions: computeCost and gradientDescent function. </p>
+<p><strong><em>computeCost</em></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function J = computeCost(X, y, theta)&#10;    J= 0.5*1/m*sum((X*theta-y).^2)&#10;end</span><br></pre></td></tr></table></figure>
+<p><strong><em>gradientDescent</em></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function [theta, J_history] = gradientDescent(X, y, theta, alpha, num_iters)&#10;   m = length(y); % number of training examples&#10;   J_history = zeros(num_iters, 1);  &#10;   for iter = 1:num_iters&#10;      cost = X&#39;*((X*theta)-y);&#10;      theta = theta - ((alpha/m)*cost);&#10;      J_history(iter) = computeCost(X, y, theta);&#10;   end&#10;end</span><br></pre></td></tr></table></figure>
+<p>The matlab code will print out 1500 lines of cost function results and when you see the J turn to be steady, the corresponding thetas are the thetas wanted. Furthermore, if we set a tolerance rate and if-else conditions, we don’t need to print out that many Js.<br>Following is the graph of cost J s and corresponding $$$\theta$$$ s.<br><img src="/images/ML_GD_fig2.png" alt=""><br><img src="/images/ML_GD_fig3.png" alt=""></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sunnylinmy.github.io/2015/06/25/ML-LG/" data-id="cibifhjz60000eio9o78zd8uw" class="article-share-link">Share</a>
+      <a data-url="http://sunnylinmy.github.io/2015/06/02/ML-Gradient-Descent1/" data-id="cibd3k4ct000g4ro9b2yzgqnb" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Machine-Learning/">Machine Learning</a></li></ul>
@@ -207,30 +216,14 @@
     </footer>
   </div>
   
-    
-<nav id="article-nav">
-  
-    <a href="/2015/07/01/practice_recursion/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          (no title)
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2015/06/20/Recycle-Station/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Site Selection of Recycle Station of Nanshan District, Shenzhen, China</div>
-    </a>
-  
-</nav>
-
-  
 </article>
 
-</section>
+
+    
+      <nav id="page-nav">
+        <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+      </nav>
+    </section>
       
         <aside id="sidebar">
   
