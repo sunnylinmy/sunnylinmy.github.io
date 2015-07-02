@@ -117,7 +117,7 @@ body,
 }
 body {
   color: #565a5f;
-  background: #f5f8f9;
+  background: #fafbfc;
   font: 14px "open sans", "Helvetica Neue", "Microsoft Yahei", Helvetica, Arial, sans-serif;
   -webkit-text-size-adjust: 100%;
 }
@@ -613,8 +613,6 @@ a:visited {
   text-align: center;
 }
 #profile .inner .base-info #name {
-  width: 20px;
-  height: 20px;
   font-weight: 600;
 }
 #profile .inner .base-info #location {
@@ -945,7 +943,7 @@ a.article-title:hover {
   padding: 6px 15px;
   -webkit-border-radius: 15px;
   border-radius: 15px;
-  background: #f5f8f9;
+  background: #fafbfc;
   color: #999;
   text-shadow: 0 1px #fff;
   text-decoration: none;
@@ -1112,7 +1110,7 @@ a.article-title:hover {
   line-height: 36px;
 }
 .article-share-links {
-  background: #f5f8f9;
+  background: #fafbfc;
 }
 .article-share-links:before,
 .article-share-links:after {
@@ -1430,14 +1428,14 @@ a.article-title:hover {
 }
 .article-entry pre,
 .article-entry .highlight {
-  background: #ccc;
+  background: #3d3d3d;
   margin: 0 -20px;
   padding: 15px 20px;
   border-style: solid;
   border-color: #eceff2;
   border-width: 1px 0;
   overflow: auto;
-  color: #666;
+  color: #fff;
   line-height: 22.400000000000002px;
 }
 .article-entry .highlight .gutter pre,
@@ -1450,7 +1448,7 @@ a.article-title:hover {
   font-family: "Source Code Pro", Consolas, Monaco, Menlo, Consolas, monospace;
 }
 .article-entry code {
-  background: #f5f8f9;
+  background: #fafbfc;
   text-shadow: 0 1px #fff;
   padding: 0 0.3em;
 }
@@ -1501,7 +1499,7 @@ a.article-title:hover {
   border-style: solid;
   border-color: #eceff2;
   border-width: 1px 0;
-  background: #ccc;
+  background: #3d3d3d;
   padding: 15px 20px 15px 0;
 }
 .article-entry .gist .gist-file {
@@ -1535,7 +1533,7 @@ a.article-title:hover {
   border: none;
 }
 .article-entry .gist .gist-file .gist-meta {
-  background: #ccc;
+  background: #3d3d3d;
   color: #999;
   font: 0.85em "open sans", "Helvetica Neue", "Microsoft Yahei", Helvetica, Arial, sans-serif;
   text-shadow: 0 0;
