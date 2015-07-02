@@ -152,7 +152,7 @@
 </aside>
       
       <section id="main">
-      <article id="post-ML-LG" class="article article-type-post" itemscope itemprop="blogPost">
+      <article id="post-Recycle-Station" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     
@@ -161,15 +161,15 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/25/ML-LG/">Machine Learning Study Notes - Regularized Logistic Regression</a>
+      <a class="article-title" href="/2015/06/20/Recycle-Station/">Site Selection of Recycle Station of Nanshan District, Shenzhen, China</a>
     </h1>
   
 
         <div class="article-meta">
           <div class="article-date">
   <i class="fa fa-calendar"></i>
-  <a href="/2015/06/25/ML-LG/">
-    <time datetime="2015-06-26T01:53:10.000Z" itemprop="datePublished">2015-06-25</time>
+  <a href="/2015/06/20/Recycle-Station/">
+    <time datetime="2015-06-20T04:00:00.000Z" itemprop="datePublished">2015-06-20</time>
   </a>
 </div>
           
@@ -183,25 +183,594 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>When I was taking Applied Econometrics Course at Duke University,  I learned logistic regression as a regression method, the dependent variable of which is cases such as people smoke or not.  In econometrics modeling, what economists consider most is whether the model makes economic sense or not with maybe omitted variables or endogeneity. However, when dealing with large data sets with handreds or thousands of variables, we need to consider the issue of overfitting, which occurs when the machine learning model describes random error instead of actual relationship.</p>
-<p>To solve overfitting, one common method is to regularize model. <a href="https://en.wikipedia.org/wiki/Regularization_(mathematics" target="_blank" rel="external">Regularization</a>). Continuing with gradient descent, to regularize, we can add another term at the tail of original cost function and gradient descent function. Add this term, $$${\lambda \over 2m} \theta^2$$$, to cost function and $$${\lambda \over m } \theta$$$ to gradient function. This is the form of L2 regularization. According to wikipedia, L1 regularization is often preferred because it produces sparse models and thus performs feature selection within the learning algorithm, but since the L1 form is not differentiable, and can’t have a closed form, I use L2 form here.</p>
-<p>My regularized cost function originally looks like this, which is also a good example of including for-loop in Matlab(which is bad): </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function [J, grad] = costFunctionReg(theta, X, y, lambda)&#10;&#10;   m = length(y); % number of training examples&#10;   J = 0;&#10;   grad = zeros(size(theta));&#10;   g = sigmoid(X*theta);&#10;   n = length(theta);&#10;&#10;   J = J = (1/m)*sum(-y&#39;*log(g)-(1-y)&#39;*log(1-g)) + lambda/(2*m)*theta(2:n,1)&#39;*theta(2:n,1) ;&#10;   grad(1) = (1/m)*sum(transpose(X(:,1))*(g-y))&#10;&#10;   for i = 2:n&#10;   grad(i) = (1/m)*sum(transpose(X(:,i))*(g-y))+ lambda/m *theta(i);&#10;    end&#10;&#10;end</span><br></pre></td></tr></table></figure>
-<p>Since matlab calculates based on matrix, we should avoid for-loop as much as possible. One useful tool to vectorize for loop is to use element-wise multiplication operation (.*) and sum. Modify the above function with vectorization:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function [J, grad] = lrCostFunction(theta, X, y, lambda)&#10;&#10;   m = length(y); % number of training examples&#10;   J = 0;&#10;   grad = zeros(size(theta));&#10;&#10;   J = 1/m * sum(-y.*log(sigmoid(X*theta))-(ones(size(y),1)-y).*log(1-sigmoid(X*theta))) + lambda/(2*m)*theta(2:size(theta))&#39;*theta(2:size(theta));                                                                               &#10;   grad(1)= 1/m * (sigmoid(X*theta)-y)&#39;*X(:,1);&#10;                       &#10;   grad(2:size(theta)) = 1/m * ((sigmoid(X*theta)-y)&#39;*X(:,2:size(theta)))&#39;+ lambda/m*theta(2:size(theta)) ;&#10;&#10;   grad = grad(:);&#10;&#10;end</span><br></pre></td></tr></table></figure>
-<p>After completing cost function, we can write in the main.m file to use <a href="http://www.mathworks.com/help/optim/ug/fminunc.html" target="_blank" rel="external">fminunc</a>to calculate $$$\theta$$$ and then predict accuracy on training set:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">initial_theta = zeros(size(X, 2), 1);&#10;lambda = 0.1;&#10;&#10;% Set Options&#10;options = optimset(&#39;GradObj&#39;, &#39;on&#39;, &#39;MaxIter&#39;, 400);&#10;&#10;% Optimize&#10;[theta, J, exit_flag] = ...&#10;&#9;fminunc(@(t)(costFunctionReg(t, X, y, lambda)), initial_theta, options);&#10;&#10;p = predict(theta,X);&#10;mean(double(p==y))*100</span><br></pre></td></tr></table></figure>
-<p>The accuracy for this project is 83%. As for logistic regression, the function of predict is like: </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function p = predict(theta, X)&#10;&#10;m = size(X, 1); % Number of training examples&#10;p = zeros(m, 1);&#10;for i = 1:m&#10;    if (sigmoid(X(i,:)*theta) &#62;= 0.5)&#10;         p(i)= 1;&#10;    else&#10;         p(i)= 0;&#10;end&#10;                                       &#10;end</span><br></pre></td></tr></table></figure>
-<p><img src="/images/logistic_regression.png" alt=""></p>
+        <p>When I was an undergraduate student in Nankai University, I chose a course called Data Structure and Computing Algorithms introduction from Department of Mathematics. Three years passed, I have learned a lot of other algorithms beyond the content of that class, and I found that the code I wrote at that time was kind of … duh. Never mind, this course raised my interest in machine learning at least and I really enjoyed it. In this post, I’m going to briefly review what I did in the course project: Site selection of recycle station of Nanshan District, Shenzhen, China. This project was finally presented in class on 2012-12-17 and the project was originally in a mathematical modeling contest. </p>
+<p>In Nanshan District, there are 38 waste collection stations. Waste from every residential and commercial unit will be sent to the 38 waste collection everyday. Waste can be divided as two parts: recyclable and un recyclable. People in every waste collection station will separate the waste and send the recyclable waste to recycle station and send the unrecyclable waste to waste-to-energy burning plant located at the southwest part of Nanshan District. Thus, the project mainly consists of two problems: </p>
+<ol>
+<li>Since we have 2 sizes of recycle stations, big and small, how many and what kind of recycle stations are needed? Where should we set the waste recycle station to minimize the cost of transportation?</li>
+<li>If we’re going to use one big truck from one collection station to transport unrecyclable waste from its original plant and other unrecylcable waste from some other collection station along its road to burning plant, what will be his optimal road?</li>
+</ol>
+<h3 id="Problem_1_Location_of_Recycle_Station">Problem 1 Location of Recycle Station</h3><p>The map of Nanshan District is:<br><img src="/images/Nanshan_map.png" alt=""></p>
+<p>And the list of collection station looks like this:</p>
+<table>
+<thead>
+<tr>
+<th>Sequence</th>
+<th>Name</th>
+<th>Position</th>
+<th>Operation Corporation</th>
+<th>Quantity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>9th Street Station</td>
+<td>Shen Nan Ave beside Nantou Middle School</td>
+<td>De Ying Li Corporation</td>
+<td>20</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Yu Quan Station</td>
+<td>Yu Quan Rd and Bao Long Rd Crossing</td>
+<td>De Ying Li Corporation</td>
+<td>25</td>
+</tr>
+<tr>
+<td>….</td>
+<td>…..</td>
+<td>………..</td>
+<td>…………………..</td>
+<td>………</td>
+</tr>
+<tr>
+<td>38</td>
+<td>Tang Lang Station</td>
+<td>In Tang Lang Industrial Zone</td>
+<td>Recycling Main Corporation</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<p>We first marked every waste collection station manually according to the position described in the above list on the map. And put the map into mathematica to get the coordinates of every collection station like this:</p>
+<p><img src="/images/Nanshan_coordinates.png" alt=""></p>
+<p>And the list of coordinates of collection is as following, where </p>
+<table>
+<thead>
+<tr>
+<th>Sequence</th>
+<th>X</th>
+<th>Y</th>
+<th>C</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2225</td>
+<td>-5138</td>
+<td>20</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2749</td>
+<td>-4940</td>
+<td>25</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+<td>….</td>
+<td></td>
+</tr>
+<tr>
+<td>38</td>
+<td>5195</td>
+<td>-3147</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<h4 id="Problemt_1-1_Estimation_of_Cost">Problemt 1.1 Estimation of Cost</h4><p>To solve the problem of how many big or small recycle station to build, we did a simple estimation. The condition we have at that time is:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Number</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The Area of Nanshan District</td>
+<td>182 km^2</td>
+</tr>
+<tr>
+<td>Recyclable Waste in collection station</td>
+<td>536 ton/day </td>
+</tr>
+<tr>
+<td>Truck Load</td>
+<td>10 ton </td>
+</tr>
+<tr>
+<td>Truck fuel consumption per ton</td>
+<td>27.5 L/100km</td>
+</tr>
+<tr>
+<td>Fuel Price</td>
+<td>7.5 RMB/L</td>
+</tr>
+<tr>
+<td>Big Station Treatment Capacity</td>
+<td>200 ton/day</td>
+</tr>
+<tr>
+<td>Small Station Treatment Capacity</td>
+<td>0.25 ton/day</td>
+</tr>
+<tr>
+<td>Big Station Building Cost</td>
+<td>45 Million RMB</td>
+</tr>
+<tr>
+<td>Small Station Building Cost</td>
+<td>0.28 Million RMB</td>
+</tr>
+<tr>
+<td>Big Station Treatment Cost</td>
+<td>150 RMB/ton</td>
+</tr>
+<tr>
+<td>Small Station Treatment Cost</td>
+<td>200 RMB/ton</td>
+</tr>
+</tbody>
+</table>
+<p>Thus, according the data of each waste collection station and the data above, we will have an estimation below:</p>
+<table>
+<thead>
+<tr>
+<th>Station</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No. of Small Station : 2144</td>
+<td>6.4 * 10^8 RMB/year</td>
+</tr>
+<tr>
+<td>No. of Big Station: 1 and No. of Small Station: 1344</td>
+<td>4.56 * 10^8 RMB/year</td>
+</tr>
+<tr>
+<td>No. of Big Station: 2 and No. of Small Station: 544</td>
+<td>2.58 * 10^8 RMB/year</td>
+</tr>
+<tr>
+<td><strong><strong>No. of Big Station: 3</strong></strong></td>
+<td>1.64 * 10^8 RMB/year</td>
+</tr>
+</tbody>
+</table>
+<p>Even if we think the Nanshan District is a round area and we put every collection station at the border with the recycle station at the center, we still find that the difference between every two condition above in the table is almost 30 times of the transportation cost every year. Thus, we don’t need to consider transportation cost when deciding what kinds of stations to build and the decision is to build 3 big stations since this results in the least cost every year.</p>
+<h4 id="Problem_1-2_Clustering">Problem 1.2 Clustering</h4><p>Since we found 3 big stations is the answer, we then use hierarchical cluster analysis to cluster the collection stations into 3 group and then by finding the barycenter of each group we can determine which location to build the recycle station. As for the clustering analysis, we use a agglomerative way to divide. We first regards the 38 collection stations as in their own clusters, and limits the distance between each clusters and the way to calculate distance between each collection station. Then we combine every 2 “adjacent” stations to one cluster, and calculate the distance between this new cluster to other clusters, and so on, until we can see on the graph that the collection stations are divided into 3 groups.</p>
+<p>Matlab code is as following:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clc; &#10;data=xlsread(&#39;Book.xls&#39;,1);&#10;x=data(:,3);&#10;y=data(:,4);&#10;c=data(:,5);&#10;XY=[x y];&#10;Z = linkage(XY,&#39;ward&#39;,&#39;euclidean&#39;,&#39;savememory&#39;,&#39;on&#39;);&#10;c = cluster(Z,&#39;maxclust&#39;,3);&#10;scatter(x,y,10,c); &#10;dendrogram(X);&#10;hold on;</span><br></pre></td></tr></table></figure>
+<p>Then the map after clustering is as following, with different groups are in different color:</p>
+<p><img src="/images/Cluster.png" alt=""></p>
+<p>And the relationship of clustering is as follows:</p>
+<p><img src="/images/cluster3.png" alt=""></p>
+<p>To find the barycenter within each group by regarding the treatment capacity as their “weight”, we can find the center depicted in the map:</p>
+<p><img src="/images/3_recycle_station.png" alt=""></p>
+<p>And the function to find the barycenter is:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function cg=barycenter(mass,coord) &#10;% mass is the treatment capacity&#10;% coord is the coordinates of every station&#10;dm=size(coord); &#10;m=dm(1); &#10;n=dm(2); &#10;cg=zeros(1,n); &#10;tmass=sum(mass); &#10;for j=1:m &#10;         for i=1:n &#10;                 cg(i)=cg(i)+mass(j)*coord(j,i); &#10;         end &#10;end &#10;cg=cg/tmass;</span><br></pre></td></tr></table></figure>
+<h3 id="Problem_2_Route_to_Burning_Plant">Problem 2 Route to Burning Plant</h3><p>To make this route we use <a href="https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm" target="_blank" rel="external">Dijkstra</a> to find the shortest route for a truck if it starts from one station to the final station. For economic concern, we assume the truck should better go to other stations before it finally reaches the burning plant since everyday the unrecyclable waste in one station usually will not meet the upper limit of a truck’s capacity and thus the truck should go to multiple stations to save fuel for other trucks. </p>
+<p>Next is an example code of one truck from No.31 station to Burning Plant. Since we regard the Burning Plant as the No.39 station, we put 39 as the end in the following program. </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clc; clear; close all;&#10;points = load(&#8216;Points.txt&#39;);&#10;lines = load(&#39;Lines.txt&#39;);&#10;A = ones(size(points, 1))*Inf;&#10;for i = 1 : size(A, 1)&#10;    A(i, i) = 0;&#10;end&#10;&#10;figure(&#8216;NumberTitle&#8217;, &#8216;off&#8217;, &#8216;Name&#8217;, &#8216;&#10;Connections&#39;, ...&#10;    &#39;Color&#39;, &#39;w&#39;, &#39;units&#39;, &#39;normalized&#39;);&#10;hold on; axis on;&#10;plot(points(:, 2), points(:, 3), &#39;g.&#39;,&#39;MarkerSize&#39;,20);&#10;for i=1:length(points(:,2))&#10;    str=[num2str(i)];&#10;text(points(i,2),points(i,3),str,&#39;FontSize&#39;,10)&#10;end&#10;for i = 1 : size(lines, 1)&#10;    temp = lines(i, :);&#10;    pt1 = points(temp(2), 2 : end);&#10;    pt2 = points(temp(3), 2 : end);&#10;    len = norm([pt1(1)-pt2(1), pt1(2)-pt2(2)]);&#10;    A(temp(1), temp(2)) = len;&#10;    plot([pt1(1) pt2(1)], [pt1(2) pt2(2)], &#39;k-&#39;, &#39;LineWidth&#39;, 1);&#10;end&#10;s = 31; % Begin&#10;e = 39; % End&#10;[dist,path] = dijkstra2(points,lines,s,e);&#10;fprintf(&#39;\n Use Dijkstra the Min Distance is: %.5f \n&#39;, dist);&#10;fprintf(&#39;\n Use Dijkstra the Min Distance path is: \n&#39;);&#10;disp(path);</span><br></pre></td></tr></table></figure>
+<p><img src="/images/dijkstra.png" alt=""><br><img src="/images/dijkstra2.png" alt=""></p>
+<p>As the output indicates, if we are going to the Burning Plant from No.31 station, we should pass No. 32, No.5, No.7, No.12, No.17, No.10, No.36. </p>
+<p>The dijkstra algorithm function is:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function [dist,path] = dijkstra(nodes,segments,start_id,finish_id)&#10;&#10;    % initializations&#10;    node_ids = nodes(:,1);&#10;    [num_map_pts,cols] = size(nodes);&#10;    table = sparse(num_map_pts,2);&#10;    shortest_distance = Inf(num_map_pts,1);&#10;    settled = zeros(num_map_pts,1);&#10;    path = num2cell(NaN(num_map_pts,1));&#10;    col = 2;&#10;    pidx = find(start_id == node_ids);&#10;    shortest_distance(pidx) = 0;&#10;    table(pidx,col) = 0;&#10;    settled(pidx) = 1;&#10;    path(pidx) = &#123;start_id&#125;;&#10;    if (nargin &#60; 4) % compute shortest path for all nodes&#10;        while_cmd = &#39;sum(~settled) &#62; 0&#39;;&#10;    else % terminate algorithm early&#10;        while_cmd = &#39;settled(zz) == 0&#39;;&#10;        zz = find(finish_id == node_ids);&#10;    end&#10;    while eval(while_cmd)&#10;        % update the table&#10;        table(:,col-1) = table(:,col);&#10;        table(pidx,col) = 0;&#10;        % find neighboring nodes in the segments list&#10;        neighbor_ids = [segments(node_ids(pidx) == segments(:,2),3);&#10;            segments(node_ids(pidx) == segments(:,3),2)];&#10;        % calculate the distances to the neighboring nodes and keep track of the paths&#10;        for k = 1:length(neighbor_ids)&#10;            cidx = find(neighbor_ids(k) == node_ids);&#10;            if ~settled(cidx)&#10;                d = sqrt(sum((nodes(pidx,2:cols) - nodes(cidx,2:cols)).^2));&#10;                if (table(cidx,col-1) == 0) || ...&#10;                        (table(cidx,col-1) &#62; (table(pidx,col-1) + d))&#10;                    table(cidx,col) = table(pidx,col-1) + d;&#10;                    tmp_path = path(pidx);&#10;                    path(cidx) = &#123;[tmp_path&#123;1&#125; neighbor_ids(k)]&#125;;&#10;                else&#10;                    table(cidx,col) = table(cidx,col-1);&#10;                end&#10;            end&#10;        end&#10;        % find the minimum non-zero value in the table and save it&#10;        nidx = find(table(:,col));&#10;        ndx = find(table(nidx,col) == min(table(nidx,col)));&#10;        if isempty(ndx)&#10;            break&#10;        else&#10;            pidx = nidx(ndx(1));&#10;            shortest_distance(pidx) = table(pidx,col);&#10;            settled(pidx) = 1;&#10;        end&#10;    end&#10;    if (nargin &#60; 4) % return the distance and path arrays for all of the nodes&#10;        dist = shortest_distance&#39;;&#10;        path = path&#39;;&#10;    else % return the distance and path for the ending node&#10;        dist = shortest_distance(zz);&#10;        path = path(zz);&#10;        path = path&#123;1&#125;;&#10;    end&#10;end</span><br></pre></td></tr></table></figure>
+<h3 id="Discussion">Discussion</h3><p>Looking back to this project, I did find some modifications that can be made, such as changing the euclidean distance to manhattan distance or trying to figure out a dynamic way to solve how many trucks are needed everyday to transport unrecyclable waste to Burning Plant. </p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://sunnylinmy.github.io/2015/06/25/ML-LG/" data-id="cibifhjz60000eio9o78zd8uw" class="article-share-link">Share</a>
+      <a data-url="http://sunnylinmy.github.io/2015/06/20/Recycle-Station/" data-id="cibd3k4ck00074ro9f98q43lz" class="article-share-link">Share</a>
+      
+        <a href="http://sunnylinmy.github.io/2015/06/20/Recycle-Station/#disqus_thread" class="article-comment-link">Comments</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Machine-Learning/">Machine Learning</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dijkstra/">Dijkstra</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hire/">Hire</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Machine-Learning/">Machine Learning</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+    
+      <article id="post-CCAPM" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/10/CCAPM/">Empirical Test of Bond Market’s CCAPM Based on Asymmetric Exponential Power Distribution</a>
+    </h1>
+  
+
+        <div class="article-meta">
+          <div class="article-date">
+  <i class="fa fa-calendar"></i>
+  <a href="/2015/06/10/CCAPM/">
+    <time datetime="2015-06-10T04:00:00.000Z" itemprop="datePublished">2015-06-10</time>
+  </a>
+</div>
+          
+  <div class="article-category">
+  	<i class="fa fa-folder"></i>
+    <a class="article-category-link" href="/categories/Learning/">Learning</a>
+  </div>
+
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Author: Mengyang Lin, Jin Cao, Xuan Sun</p>
+<h4 id="Abstract">Abstract</h4><p>Consumption-oriented capital asset pricing model (CCAPM) by Breeden (1979) is a financial model that extends the concepts of the traditional capital asset pricing model (CAPM) to include the consumption to measure the risk of a security by the covariance of its return with per capita consumption. It has become one of the most popular asset pricing models in the last 20 years. However, few previous research focuses on the simulation of the error terms of these asset pricing models. In this paper, we include the AEPD into the CCAPM to study its power. Nice properties of AEPD in CCAPM are found and always generate a better-fitting model.</p>
+<p><strong><strong>Keywords</strong></strong>: Consumption-oriented capital asset pricing model, asymmetric exponential power distribution</p>
+<h3 id="1-_Introduction">1. Introduction</h3><p>Consumption-oriented capital asset pricing model (CCAPM) by Breeden (1979) has been one of the most popularly used asset pricing models to measure the risk of a security by the covariance of its return with per capita consumption. This covariance is known as the consumption beta. The expected equity premium here is proportional to the consumption beta. Compared to capital asset pricing model (CAPM) by Lintner (1965) and Sharpe (1964), CCAPM is actually more important than the CAPM due to its integral role in modern macroeconomics. Nonetheless, the existing literature reports that the standard CCAPM model cannot explain the asset return in US by Breeden, Gibbons, Litzenberger (1989), Mankiw and Zeldes (1991) and Campbell and Cocherane (2000).</p>
+<p>  Although previous literature has shown different reasons for not very good results got from CCAPM, most of the empirical tests of the CCAPM have only be conducted based on the assumption that the error term follows normal distribution. There has been unexpectedly limited research in the distribution of error term of asset pricing models. Thus, in this paper, instead of normal distribution, we assume that the error term follows asymmetric exponential power distribution (AEPD) when constructing the CCAPM and explore whether the results get improved. The reason why we use assumptions of asymmetric exponential power distribution is that AEPD has features of fat tails and skewness, which are essential to describe financial data. Zhu and Zinde-Walsh (2009) have done research on the probability density function of AEPD as well as its fatness and skewness, and proposed a method to generate AEPD random numbers. Jin (2011) incorporates AEPD into capital asset pricing model.</p>
+<p>  In addition, we also find empirical evidence against the assumption that the error term in the CCAPM follows normal distribution. As shown in Table I and Graph I, consumption growth, nondurable consumption growth and BBB Corporate bond returns are negatively skewed while mortgage, long-term corporate bond and 10-year treasury yield show positive skewness. Besides, mortgage, long-term corporate bond and BBB corporate bond all have a kurtosis more than 3 and show fat tails in Graph I, while nondurable consumption, consumption and 10-year treasury yield have a kurtosis less than 3. All these are inconsistent with the normal distribution, which has a skewness of 0 and a kurtosis of 3, and thus support our assumption for the error term in CCAPM to follow AEPD.</p>
+<p>  The negative skewness of BBB Corporate bonds indicates the nonlinearities of credit put option as well as the associated changing betas. Also, the positive skewness of 10-year treasury yield is consistent with the positive convexity of treasury notes. Long-term corporate bond shows slightly positive skewness, which may be because it contains not only junk and BBB bonds but also higher rated bonds and are thus more like treasury. Surprisingly, mortgage return shows positive skewness, which is contrary to the theory of prepayment option in mortgage. This may be because the Mortgage Master Merrill Lynch (M0A0) we used for mortgage return tracks the performance of all US dollar-denominated fixed rate and hybrid residential mortgage securities and consists of mortgages with different coupon rates, which would affect prepayment and mortgage returns and thus may lead to the positive skewness in mortgages.</p>
+<p><strong><strong>Table I: Skewness and Kurtosis of Consumption, Nondurable Consumption, Mortgage, Long-term Corporate bond, 10-year Treasury and BBB Corporate Bond</strong></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Skewness</th>
+<th>Kurtosis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consumption</td>
+<td>-0.39522</td>
+<td>0.817986</td>
+</tr>
+<tr>
+<td>Nondurable Consumption</td>
+<td>-0.26411</td>
+<td>0.498609</td>
+</tr>
+<tr>
+<td>Mortgage</td>
+<td>1.601288</td>
+<td>14.1077</td>
+</tr>
+<tr>
+<td>Long Term Corporate Bond</td>
+<td>0.700779</td>
+<td>7.111248</td>
+</tr>
+<tr>
+<td>10 Year Treasury Yield</td>
+<td>0.785187</td>
+<td>0.505254</td>
+</tr>
+<tr>
+<td>BBB Corporate</td>
+<td>-0.36899</td>
+<td>13.29386</td>
+</tr>
+</tbody>
+</table>
+<p> <strong><strong>Graph I: The Empirical Distribution of Consumption, Nondurable Consumption, Mortgage, Long-term Corporate bond, 10-yr Treasury and BBB Corporate Bond</strong></strong></p>
+<p> <img src="/images/mortgage_1.png" alt=""><br> <img src="/images/LTCB_1.png" alt=""><br> <img src="/images/10Yr_1.png" alt=""><br> <img src="/images/Non_1.png" alt=""><br> <img src="/images/consumption_1.png" alt=""></p>
+<h3 id="2-_Model_and_Methodology">2. Model and Methodology</h3><p>The CCAPM-AEPD is proposed by assuming errors distributed as Asymmetric Exponential Power Distribution (AEPD). For convenience, we denote this model as CCAPM-AEPD. The CCAPM-AEPD model is given by:</p>
+<p>$$$r_t = \beta_1 + \beta_2 c_t + u_t, u_t ~ AEPD(\alpha, p_1, p_2, \mu, \sigma^2 )$$$</p>
+<p>where the AEPD density function has the following form:</p>
+<p><img src="/images/f_formula.png" alt=""></p>
+<p>$$$K_{EP} (p) = 1/[2p^{1/p} \Gamma (1+1/p)]$$$</p>
+<p>$$$p_1 &gt;0, p_2 &gt; 0$$$</p>
+<p>$$$ \alpha \in (0,1)$$$</p>
+<p><img src="/images/alpha_formula.png" alt=""></p>
+<p>$$$p_1$$$ controls the left kurtosis, $$$p_2$$$ controls the right kurtosis and $$$\alpha$$$ is the parameter of skewness.</p>
+<p>When the parameters satisfy the condition that $$$\alpha = 0.5, p_1=p_2=2, \mu = 0, \sigma=1$$$, and thus $$$\alpha = \alpha^*$$$, the function of AEPD turns out to be</p>
+<p><img src="/images/f_formula2.png" alt=""></p>
+<p>The parameters of CCAPM-AEPD and CCAPM have the same meaning: $$$r_t$$$ is the asset return and $$$c_t$$$ is the consumption growth return. $$$\beta_1$$$ and $$$\beta_2$$$ are two parameters to estimate: $$$\beta_1$$$ is the intercept and $$$\beta_2$$$ is the coefficient of the function. $$$u_t$$$ is the error term of CCAPM function.</p>
+<p>Since we change the assumption of the distribution of error from normal distribution to asymmetric exponential power distribution, we use maximum likelihood estimation method to estimate parameters instead of ordinary least square method. The likelihood function is</p>
+<p><img src="/images/l_formula.png" alt=""></p>
+<p>In order to show the advantage of this model, we compare the model with CCAPM with normal distribution assumption. </p>
+<h3 id="3-_Empirical_Test:_CCAPM-AEPD_vs_CCAPM">3. Empirical Test: CCAPM-AEPD vs CCAPM</h3><h4 id="3-1_Data">3.1 Data</h4><p>In this paper, to do the empirical test, we use two different consumption growth: total consumption growth and total nondurable consumption growth. Nondurable consumption on a semiannual basis could be food, clothing and shoes, housing, utilities, transportation, and medical care, while durable consumption could be motor vehicles, furniture and appliances and jewelry and watches. Housing is the service flow inputted from the rental value of houses. </p>
+<p>As Breeden, Gibbons and Litzenberger (1989) and Yogo (2006) indicate, the empirical test of CCAPM should use nondurable consumption to do the regression. “When utility is nonseparable in nondurable and durable consumption and the elasticity of substitution between the two consumption goods is sufficiently high, marginal utility rises when durable consumption falls.” Thus, nondurable consumption could be a better indicator of optimistic view of market. However, non-durable consumption data may not be very accurate, since the data available is measured as average consumption over an interval of time and the length of nondurable consumption data is relatively short. Small sample will increase type II error and decrease the significance, thus we use total consumption, which has longer time period in this model as well.</p>
+<p>The data is gathered from Professor Douglas T. Breeden in Duke University.</p>
+<h4 id="3-2_Method">3.2 Method</h4><p>We use CCAPM-AEPD and CCAPM model to do the empirical test simultaneously. We estimate the parameter of CCAPM-AEPD using maximum likelihood estimation method, and estimate the parameter of CCAPM with error following normal distribution assumption as well. Under the normal distribution assumption, we fix $$$\alpha = 0.5, p_1=2, p_2=2$$$, and the AEPD distribution reduces to normal distribution. Under AEPD distribution assumption, as the model is robust, we set initial number of $$$\alpha$$$, $$$p_1$$$ and $$$p_2$$$ and get estimated parameters. The likelihood function of normal distribution assumption is:</p>
+<p>$$$L(r<em>t, c_t;\theta)= \prod</em>{i=0}^{n} {1 \over {\sigma \sqrt {2 \pi}}} exp[{- {(u_t - \mu)^2} \over {2 \sigma^2}}]$$$</p>
+<p>The likelihood function of AEPD distribution assumption is already given in the last function of 2. Model and Methodology.</p>
+<h4 id="3-3_Goodness_of_Fit">3.3 Goodness of Fit</h4><p>When applying maximum likelihood estimation, one can no longer use R-squared as criteria to do the model selection. To evaluate the goodness of fit, we use Akaike Information Criterion (AIC). Since there would always be information lost due to using a candidate model to represent the true model, we wish to select the model with least information lost. Though we cannot choose with certainty, we can minimize the estimated information lost. Generally, given the data set we have, the preferred model will give the smaller AIC value. In this paper, to offset the possible overfitting effect caused by 3 more parameters to estimate in CCAPM-AEPD model, we use AICc to evaluate the goodness of fit, because AICc has greater penalty for extra parameters. The function of AICc used in this paper is:</p>
+<p>$$$ AIC = - {2 \over n} ln(L) + 2 {k(k+1)} / (n-k-1)$$$</p>
+<p>where k is the number of parameters. As we can see in Table II and Table III, the AICc value of CCAPM-AEPD is always smaller than that of CCAPM model. </p>
+<p>To quantify the improvement of CCAPM-AEPD relative to CCAPM, the relative likelihood, $$$ exp({(AIC_{min} - AIC_1)/ {2}})$$$ , can be used to interpret the relative possibility that the model minimizes the estimated information lost. We choose Junk Bond as an example. The relative likelihood of CCAPM is 0.66 since CCAPM-AEPD has a smaller AICc value. Then, we could say that CCAPM model is 0.66 times as probable as CCAPM-AEPD model to minimize the information lost. From Table II and Table III, the range of relative likelihood is from 0.00 to 0.93. For high relative likelihood, we may conclude that adding extra 3 parameters may be less advantageous because the loss minimized using a more complex model is not very big. However, when analyzing junk bond and long term corporate bond, CCAPM-AEPD has a much better performance. This may be because junk bond and long term corporate bond are more like equity, of which the error term has the properties of equity like fat tail and skewness and is thus more suitable for AEPD assumption.</p>
+<h4 id="3-4_Residual_Check">3.4 Residual Check</h4><p>The advantage of AEPD model can also be shown in the residual graph. By comparing the empirical distribution curve of the error term with the distribution curve of random numbers generated from different distributions, we could see whether the model explains the real data well. The random number is generated from Normal distribution or AEPD distribution with estimated parameter from empirical data. We still take Junk Bond for example.</p>
+<p><strong><strong>Graph II: The distribution of the error term of junk bond in CAPM and random numbers from normal distribution</strong></strong></p>
+<p><img src="/images/junk_bond.png" alt=""></p>
+<p>As graph II shows, the curve of the error term of junk bond is obviously different from the curve of random numbers from normal distribution. The curve of the error term has the characteristics of asymmetries and fatness. As far as we can see in the graph, it is not appropriate to say that the normal distribution tracks the error term very well.</p>
+<p>Similar, we compare the distribution curve of the error term and the distribution curve of the random numbers generated from AEPD to see whether the model tracks t<br>he real data well.</p>
+<p><strong><strong>Graph III: The distribution of the error term of junk bond in CCAPM-AEPD and random numbers from AEPD distribution</strong></strong></p>
+<p><img src="/images/junk_bond_2.png" alt=""></p>
+<p>As far as we can see in the graph, the curve of the error term fits very well to the curve of the AEPD distribution random number. Comparing Graph III to Graph II, we can find that the CCAPM-AEPD model explains bond return data better than the CCAPM model does.</p>
+<p>Graphs of residual check for other fixed income securities could be found in the appendix. For most of the bonds, the residual graph of CCAPM-AEPD has better fit than CCAPM. </p>
+<h4 id="3-5_Empirical_Result">3.5 Empirical Result</h4><p>Table II and Table III show the results from two models. As shown in the tables, AICs does improve when using the CCAPM-AEPD model instead of the standard CCAPM model. </p>
+<p>Using total consumption growth, the beta values of CCAPM and CCAPM-AEPD are very small, which indicates a weak correlation between the bond return and the growth rate of consumption. Using nondurable consumption growth, beta value changes the sign on long-term corporate bond and AAA corporate bond. In CCAPM model, the coefficient values of long-term corporate bond and AAA corporate bond are positive, while in CCAPM-AEPD model, the coefficient values of these two bonds become negative. This could be possibly explained by the substitution effect. When consumption growth rate increases, there is a large possibility that stock market will also increase, while capital assets like long term corporate bond and high ranking bond may remain unchanged. Thus, investors may not be as satisfied with the relatively low return provided by bond of the same company as the higher return provided by the stock. Therefore, the price of bond will be pushed down and gives a decreasing bond return. This tentative explanation needs further exploration.</p>
+<p><strong><strong>Table II: CCAPM VS. CCAPM-AEPD using total consumption growth</strong></strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th>$$$\beta_1$$$</th>
+<th>$$$\beta_2$$$</th>
+<th>$$$\alpha$$$</th>
+<th>$$$p_1$$$</th>
+<th>$$$p_2$$$</th>
+<th>AICc</th>
+<th>Relative Likelihood</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Baa Corporate Bond</td>
+<td>CCAPM</td>
+<td>2.192</td>
+<td>-0.063</td>
+<td>0.50</td>
+<td>2.00</td>
+<td>2.00</td>
+<td>2.84</td>
+<td>0.90</td>
+</tr>
+<tr>
+<td></td>
+<td>CCAPM-AEPD</td>
+<td>2.348</td>
+<td>-0.007</td>
+<td>0.75</td>
+<td>18.11</td>
+<td>0.79</td>
+<td>2.64</td>
+</tr>
+<tr>
+<td>Junk Bond Premium</td>
+<td>CCAPM</td>
+<td>5.721</td>
+<td>-0.118</td>
+<td>0.50</td>
+<td>2.00</td>
+<td>2.00</td>
+<td>4.93</td>
+<td>0.66</td>
+</tr>
+<tr>
+<td></td>
+<td>CCAPM-AEPD</td>
+<td>4.304</td>
+<td>－0.023</td>
+<td>0.19</td>
+<td>1.23</td>
+<td>0.70</td>
+<td>4.09</td>
+</tr>
+<tr>
+<td>10 Year Treasury</td>
+<td>CCAPM</td>
+<td>5.092</td>
+<td>-0.016</td>
+<td>-0.50</td>
+<td>2.00</td>
+<td>2.00</td>
+<td>4.91</td>
+<td>0.79</td>
+</tr>
+<tr>
+<td></td>
+<td>CCAPM-AEPD</td>
+<td>3.605</td>
+<td>-0.007</td>
+<td>0.05</td>
+<td>0.93</td>
+<td>1.24</td>
+<td>4.44</td>
+<td></td>
+</tr>
+<tr>
+<td>Short 3 month Treasury</td>
+<td>CCAPM</td>
+<td>3.619</td>
+<td>-0.020</td>
+<td>0.50</td>
+<td>2.00</td>
+<td>2.00</td>
+<td>4.91</td>
+<td>0.79</td>
+</tr>
+<tr>
+<td></td>
+<td>CCAPM-AEPD</td>
+<td>1.818</td>
+<td>0.003</td>
+<td>0.01</td>
+<td>0.13</td>
+<td>1.36</td>
+<td>4.59</td>
+<td></td>
+</tr>
+<tr>
+<td>US Long Term Corporate Bond</td>
+<td>CCAPM</td>
+<td>5.933</td>
+<td>0.099</td>
+<td>0.50</td>
+<td>2.00</td>
+<td>2.00</td>
+<td>5.10</td>
+<td>0.77</td>
+</tr>
+<tr>
+<td></td>
+<td>CCAPM-AEPD</td>
+<td>4.947</td>
+<td>-0.043</td>
+<td>0.42</td>
+<td>0.86</td>
+<td>0.81</td>
+<td>7.51</td>
+<td></td>
+</tr>
+<tr>
+<td>US Long Term Government Bond</td>
+<td>CCAPM</td>
+<td>5.249</td>
+<td>-0.058</td>
+<td>0.50</td>
+<td>2.00</td>
+<td>2.00</td>
+<td>8.02</td>
+<td>0.90</td>
+</tr>
+<tr>
+<td></td>
+<td>CCAPM-AEPD</td>
+<td>4.131</td>
+<td>-0.012</td>
+<td>0.28</td>
+<td>0.87</td>
+<td>0.95</td>
+<td>6.59</td>
+<td></td>
+</tr>
+<tr>
+<td>US Intermediate Term 5yr Government Bond</td>
+<td>CCAPM</td>
+<td>5.316</td>
+<td>-0.069</td>
+<td>0.50</td>
+<td>2.00</td>
+<td>2.00</td>
+<td>6.89</td>
+<td>0.86</td>
+</tr>
+<tr>
+<td></td>
+<td>CCAPM-AEPD</td>
+<td>4.131</td>
+<td>-0.012</td>
+<td>0.28</td>
+<td>0.87</td>
+<td>0.95</td>
+<td>6.59</td>
+<td></td>
+</tr>
+<tr>
+<td>US 30 Day Treasury Bill</td>
+<td>CCAPM</td>
+<td>3.608</td>
+<td>-0.041</td>
+<td>0.50</td>
+<td>2.00</td>
+<td>2.00</td>
+<td>5.14</td>
+<td>0.76</td>
+</tr>
+<tr>
+<td></td>
+<td>CCAPM-AEPD</td>
+<td>1.783</td>
+<td>-0.005</td>
+<td>0.00</td>
+<td>1.01</td>
+<td>1.44</td>
+<td>4.60</td>
+</tr>
+<tr>
+<td>AAA Corporate Bond</td>
+<td>CCAPM</td>
+<td>2.588</td>
+<td>0.061</td>
+<td>0.50</td>
+<td>2.00</td>
+<td>2.00</td>
+<td>6.19</td>
+<td>0.85</td>
+</tr>
+<tr>
+<td></td>
+<td>CCAPM-AEPD</td>
+<td>2.450</td>
+<td>-0.004</td>
+<td>0.49</td>
+<td>1.00</td>
+<td>0.78</td>
+<td>5.85</td>
+<td></td>
+</tr>
+<tr>
+<td>BBB Corporate Bond</td>
+<td>CCAPM</td>
+<td>1.873</td>
+<td>0.363</td>
+<td>0.50</td>
+<td>2.00</td>
+<td>2.00</td>
+<td>6.39</td>
+<td>0.92</td>
+</tr>
+<tr>
+<td></td>
+<td>CCAPM-AEPD</td>
+<td>1.654</td>
+<td>0.170</td>
+<td>0.42</td>
+<td>0.96</td>
+<td>1.01</td>
+<td>6.22</td>
+</tr>
+</tbody>
+</table>
+<p><strong><strong>Table III: CCAPM VS CCAPM-AEPD using total nondurable consumption growth</strong></strong></p>
+<p>omitted</p>
+<h3 id="4-_Empirical_Test:_CAPM-AEPD">4. Empirical Test: CAPM-AEPD</h3><p>In this section, as a supplement to the CCAPM, we examine the power of AEPD in CAPM model to probe further into the nice properties of AEPD in asset pricing models. Using the same method as in section3, we regress the excess returns of treasuries and bonds on the excess market returns of S&amp;P 500. The result is summarized with Table IV. </p>
+<p>As shown in Table IV, the inclusion of APED also increases the goodness of fit of the model. For CAPM-AEPD, the values of AICc are smaller than that of CAPM, which indicates a higher goodness of fit. In addition, all of the values of relative likelihood ratios are smaller than 1, which gives us the same results as we see in previous empirical test. </p>
+<p>For coefficient values, we can see that there is little difference between the results of CAPM and the results of CAPM-AEPD. However, one thing we need pay attention to is that for some treasuries and bonds such as Baa corporate bond, 3-month T-bills and 30-day T-bills, the signs of coefficient values get changed. The possible reason is that there is no significant relationship between these treasuries and bonds and stock market, so the signs of these coefficient values make little sense. This argument can also be validated by the fact that these coefficient values are quite close to zero.</p>
+<p><strong><strong>Table IV: CAPM VS CAPM-AEPD using total nondurable consumption growth</strong></strong></p>
+<p>omitted</p>
+<h3 id="5-_Concluding_Remarks">5. Concluding Remarks</h3><p>This paper extends the research on asset pricing models by studying the distribution of error terms. Specifically, we replace the default normal settings of the distribution of error terms with a more flexible and sophisticated distribution-AEPD. Nice properties of AEPD in CCAPM are investigated in this paper, and the results also make sense in CAPM. AEPD allows us to conduct a more flexible and accurate simulation of the distribution of the error terms, as we can control the skewness and kurtosis. As a result, a more accurate description of the distribution of error terms gives us a better goodness of fit as shown in Table II-Table IV and thus generates a better estimation of coefficients.</p>
+<h3 id="Reference">Reference</h3><p>[1] Breeden, Douglas T. “An intertemporal asset pricing model with stochastic consumption and investment opportunities.” Journal of financial Economics 7.3 (1979): 265-296.</p>
+<p>[2] Sharpe, William F. “Capital asset prices: A theory of market equilibrium under conditions of risk*.” The journal of finance 19.3 (1964): 425-442.</p>
+<p>[3] Lintner, John. “The valuation of risk assets and the selection of risky investments in stock portfolios and capital budgets.” The review of economics and statistics (1965): 13-37.</p>
+<p>[4] Breeden, Douglas T., Michael R. Gibbons, and Robert H. Litzenberger. “Empirical tests of the consumption‐oriented CAPM.” The Journal of Finance 44.2 (1989): 231-262.</p>
+<p>[5] Campbell, John Y., and John H. Cochrane. “Explaining the poor performance of consumption‐based asset pricing models.” The Journal of Finance 55.6 (2000): 2863-2878.</p>
+<p>[6] Yogo, Motohiro. “A consumption‐based explanation of expected stock returns.” The Journal of Finance 61.2 (2006): 539-580.</p>
+<p>[7] Mankiw, N. Gregory, and Stephen P. Zeldes. “The consumption of stockholders and nonstockholders.” Journal of Financial Economics 29.1 (1991): 97-112.</p>
+<p>[8] Zhu, Dongming, and Victoria Zinde-Walsh. “Properties and estimation of asymmetric exponential power distribution.” Journal of Econometrics 148.1 (2009): 86-99.</p>
+<p>[9] Jin, Huijie. Analysis of CAPM based on asymmetric exponential power distribution. Master dissertation, Nankai University, 2011.</p>
+<h3 id="Appendix">Appendix</h3><p>omitted</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://sunnylinmy.github.io/2015/06/10/CCAPM/" data-id="cibd3k4a000004ro9k6ssc73k" class="article-share-link">Share</a>
+      
+        <a href="http://sunnylinmy.github.io/2015/06/10/CCAPM/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/learning-CCAPM-Bond/">learning, CCAPM, Bond</a></li></ul>
 
     </footer>
   </div>
@@ -211,7 +780,7 @@
 
     
       <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+        <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
       </nav>
     </section>
       
@@ -396,6 +965,17 @@
 </script>
 
 <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<script>
+  var disqus_shortname = 'mengyanglin';
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
 </script>
 
 
